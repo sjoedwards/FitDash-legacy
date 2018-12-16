@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    server: './src/server.js'
+    styles: './src/styles/main.scss'
   },
   output: {
     filename: '[name].js',
@@ -16,6 +16,20 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader"
+          },
+          {
+            loader: "sass-loader"
+          }
+        ]
       }
     ]
   },
@@ -23,7 +37,6 @@ module.exports = {
     fs: "empty",
     net: "empty",
   },
-  mode: 'development',
   devServer: {
     port: 3001,
     open: true,
