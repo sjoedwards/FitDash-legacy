@@ -1,13 +1,4 @@
-import express from 'express';
-const app = express()
-const port = 3000
-const path = require('path')
-
-app.use(express.static(path.join(__dirname, '../dist')));
-
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'))
-})
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
+console.warn('I am a Star Trek nerd');
+console.log('So through out this tutorial, you will see a lot of Star Trek quotes');
+console.log('Starting now');
+console.log("Compassion: that’s the one thing no machine ever had. Maybe it’s the one thing that keeps men ahead of them. -Dr McCoy");
