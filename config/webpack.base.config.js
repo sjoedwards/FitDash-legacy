@@ -45,6 +45,12 @@ module.exports = env => {
                     'process.env.PLATFORM': JSON.stringify(env.PLATFORM)
                 }),
                 new CopyWebpackPlugin([ { from: 'src/static' } ])
-            ]}
+            ],
+            devServer: {
+                proxy: {
+                    '/api': 'http://localhost:3000'
+                }
+            }
+        }
     ]);
 };

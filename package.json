@@ -7,15 +7,17 @@
     "prebuild": "rm -rf dist && webpack --mode production --config config/webpack.prod.config.js --env.PLATFORM=production --env.VERSION=stag --progress",
     "build": "node server",
     "test": "jest",
-    "server": "nodemon src/index.js --exec babel-node",
+    "server": "nodemon server/index.js babel-node",
     "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "nodemon": "^1.18.9",
     "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
