@@ -1,2 +1,3 @@
-- [ ] Add React Router
+- [X] Add React Router
+- [ ] Test the basic router
 - [ ] Setup the production webpack (for ES6 server code too)
