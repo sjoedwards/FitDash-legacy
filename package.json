@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "webpack-dev-server --mode development --config config/webpack.base.config.js --open --hot --history-api-fallback --env.PLATFORM=local --env.VERSION=stag",
+    "start": "webpack-dev-server --env.PLATFORM=local --env.VERSION=stag --config config/webpack.base.config.js",
     "prebuild": "rm -rf dist && webpack --mode production --config config/webpack.prod.config.js --env.PLATFORM=production --env.VERSION=stag --progress",
     "build": "node server",
     "test": "jest",

@@ -1,3 +1,5 @@
+- [X] Dockerise app
 - [X] Add React Router
+- [ ] Test writing to the local instance of mongo, check persistance
 - [ ] Test the basic router
 - [ ] Setup the production webpack (for ES6 server code too)
