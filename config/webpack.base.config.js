@@ -15,6 +15,10 @@ module.exports = env => {
                 publicPath: '/',
                 filename: '[name].js'
             },
+            watchOptions: {
+                aggregateTimeout: 300,
+                poll: 1000
+            },
             module: {
                 rules: [
                     {
@@ -54,7 +58,6 @@ module.exports = env => {
                     '/api': 'http://localhost:3000'
                 },
                 open: true,
-                hot: true,
             }
         }
     ]);
