@@ -9,7 +9,12 @@ const Log = () => <h2>Log</h2>;
 const Workout = () => <h2>Workout</h2>;
 const CatchAll = () => <h2>No Route Found</h2>;
 
-const ReactRouter = (props) => (
+interface Props {
+    children: object;
+}
+
+
+const ReactRouter = (props: Props) => (
     <Router>
         <div>
             {props.children}
