@@ -15,19 +15,25 @@ module.exports = env => {
                 publicPath: '/',
                 filename: '[name].js'
             },
+            resolve: {
+                // Add '.ts' and '.tsx' as resolvable extensions.
+                extensions: ['.ts', '.tsx', '.js', '.json']
+            },
             watchOptions: {
                 aggregateTimeout: 300,
                 poll: 1000
             },
             module: {
                 rules: [
-                    {
-                        test: /\.js$/,
-                        exclude: /node_modules/,
-                        use: {
-                            loader: 'babel-loader'
-                        }
-                    },
+                    { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+                    // {
+                    //     test: /\.js$/,
+                    //     exclude: /node_modules/,
+                    //     use: {
+                    //         loader: 'babel-loader'
+                    //     }
+                    // },
+                    { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
                     {
                         test: /\.scss$/,
                         use: [
@@ -37,6 +43,10 @@ module.exports = env => {
                         ]
                     },
                 ]
+            },
+            externals: {
+                'react': 'React',
+                'react-dom': 'ReactDOM'
             },
             plugins: [
                 new HtmlWebpackPlugin({
