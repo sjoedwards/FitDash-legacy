@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -29,9 +28,5 @@ const ReactRouter = (props: Props) => (
 
     </Router>
 );
-
-ReactRouter.propTypes = {
-    children: PropTypes.object
-};
 
 export default ReactRouter;

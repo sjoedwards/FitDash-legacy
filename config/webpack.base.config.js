@@ -16,7 +16,6 @@ module.exports = env => {
                 filename: '[name].js'
             },
             resolve: {
-                // Add '.ts' and '.tsx' as resolvable extensions.
                 extensions: ['.ts', '.tsx', '.js', '.json']
             },
             watchOptions: {
@@ -26,13 +25,6 @@ module.exports = env => {
             module: {
                 rules: [
                     { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
-                    // {
-                    //     test: /\.js$/,
-                    //     exclude: /node_modules/,
-                    //     use: {
-                    //         loader: 'babel-loader'
-                    //     }
-                    // },
                     { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
                     {
                         test: /\.scss$/,
