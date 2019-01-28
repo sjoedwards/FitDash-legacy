@@ -6,9 +6,10 @@
       "module": "commonjs",
       "target": "es5",
       "jsx": "react",
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
   },
   "include": [
       "./src/**/*"
-  ]
+  ],
 }
