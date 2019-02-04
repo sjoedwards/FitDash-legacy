@@ -11,6 +11,20 @@ services:
       - "3000:3000"
     depends_on:
       - mongo
+      - api
+    environment:
+      DATABASE_URL: mongo
+      API_URL: api
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile-node
+    command: npm run server
+    volumes:
+      - .:/usr/src/app
+      - /usr/app/node_modules
+    ports:
+      - "9000:9000"
     environment:
       DATABASE_URL: mongo
   mongo:
