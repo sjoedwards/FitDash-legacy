@@ -56,6 +56,7 @@ module.exports = env => {
                     '/api': 'http://localhost:3000'
                 },
                 open: true,
+                historyApiFallback: true
             }
         }
     ]);

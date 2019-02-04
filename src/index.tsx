@@ -1,14 +1,21 @@
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 import Nav from './components/nav';
 import ReactRouter from './react-router';
 
+import configureStore, { history } from './configureStore';
+
+const store = configureStore(/* provide initial state if any */);
+
 const App = () => (
     <Fragment>
-        <ReactRouter>
-            <Nav />
-        </ReactRouter>
+        <Provider store={store}>
+            <ReactRouter>
+                <Nav />
+            </ReactRouter>
+        </Provider>
     </Fragment>
 
 );
