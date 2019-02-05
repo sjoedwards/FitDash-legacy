@@ -1,8 +1,18 @@
+const webpack = require('webpack');
+const webpackConfig = require('../config/webpack.base.config');
+const webpackConfigObject = webpackConfig({PLATFORM: 'local', VERSION: 'stage'});
+const middleware = require('webpack-dev-middleware');
+const compiler = webpack(webpackConfig({PLATFORM: 'local', VERSION: 'stage'}));
 const express = require('express');
 const path = require('path');
 const http = require('http');
 
 const app = express();
+
+app.use(middleware(compiler, {
+    noInfo: true, publicPath: webpackConfigObject.output.publicPath
+
+}));
 
 // Point static path to dist
 app.use('/', express.static(path.join(__dirname, '..', 'dist')));
