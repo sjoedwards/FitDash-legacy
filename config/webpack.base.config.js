@@ -39,8 +39,7 @@ module.exports = env => {
             plugins: [
                 new HtmlWebpackPlugin({
                     template: './src/index.html',
-                    filename: './index.html',
-                    excludeChunks: [ 'server', 'routes' ]
+                    filename: 'index.html',
                 }),
                 new webpack.DefinePlugin({
                     'process.env.VERSION': JSON.stringify(env.VERSION),
