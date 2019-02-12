@@ -1,13 +1,12 @@
 import React from 'react';
+import Home from './components/pages/home';
+import Plan from './components/pages/plan';
+import Diary from './components/pages/progress';
+import Record from './components/pages/record'
+import PageNotFound from './components/pages/page-not-found';
+
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-const Index = () => <h2>Home</h2>;
-const Plan = () => <h2>Plan</h2>;
-const Log = () => <h2>Log</h2>;
-const Workout = () => <h2>Workout</h2>;
-const CatchAll = () => <h2>No Route Found</h2>;
-
 interface Props {
     children: object;
 }
@@ -18,11 +17,11 @@ const ReactRouter = (props: Props) => (
         <div>
             {props.children}
             <Switch>
-                <Route path="/" exact component={Index} />
+                <Route path="/" exact component={Home} />
                 <Route path="/plan/" component={Plan} />
-                <Route path="/log/" component={Log} />
-                <Route path="/workout/" component={Workout} />
-                <Route component={CatchAll} />
+                <Route path="/progress/" component={Diary} />
+                <Route path="/record/" component={Record} />
+                <Route component={PageNotFound} />
             </Switch>
         </div>
 

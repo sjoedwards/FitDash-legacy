@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import Nav from './components/nav';
+import Nav from './components/nav/nav';
 import ReactRouter from './react-router';
 import './myStyles.scss';;
 

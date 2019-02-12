@@ -1,8 +1,10 @@
 - [X] Dockerise app
 - [X] Add React Router
-- [ ] https://www.npmjs.com/package/webpack-hot-middleware
-- [ ] Get typescript working with webpack
+- [X] https://www.npmjs.com/package/webpack-hot-middleware
+- [X] Get typescript working with webpack
+- [ ] Abstract page components to separate components and add preliminary tests
+- [ ] Test the reactRouter (https://stackoverflow.com/questions/41531465/how-to-test-react-router-with-enzyme)
 - [ ] Test writing to the local instance of mongo, check persistance
-- [ ] Test the basic router
 - [ ] Setup the production webpack (for ES6 server code too)
 - [ ] Convert router to typescript
+- [ ] Add tests for server code
