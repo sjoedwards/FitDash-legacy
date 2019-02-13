@@ -2,7 +2,11 @@
 - [X] Add React Router
 - [X] https://www.npmjs.com/package/webpack-hot-middleware
 - [X] Get typescript working with webpack
-- [ ] Abstract page components to separate components and add preliminary tests
+- [X] Abstract page components to separate components
+  - [ ] + add preliminary tests
+- [ ] Create graphQL boiler
+- [ ] Design graphQL schema
+- [ ] install apollo boilerplate into application
 - [ ] Test the reactRouter (https://stackoverflow.com/questions/41531465/how-to-test-react-router-with-enzyme)
 - [ ] Test writing to the local instance of mongo, check persistance
 - [ ] Setup the production webpack (for ES6 server code too)
