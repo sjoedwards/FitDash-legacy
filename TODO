@@ -4,8 +4,10 @@
 - [X] Get typescript working with webpack
 - [X] Abstract page components to separate components
   - [ ] + add preliminary tests
-- [ ] Create graphQL boiler
-- [ ] Design graphQL schema
+- [X] Create graphQL boiler
+- [X] Design graphQL schema
+- [ ] Create Resolvers for current graphQL Schema 
+- [ ] Dockerise GraphQL
 - [ ] install apollo boilerplate into application
 - [ ] Test the reactRouter (https://stackoverflow.com/questions/41531465/how-to-test-react-router-with-enzyme)
 - [ ] Test writing to the local instance of mongo, check persistance

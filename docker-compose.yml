@@ -8,11 +8,23 @@ services:
       - .:/usr/src/app
       - /usr/app/node_modules
     ports:
-      - "9000:9000"
+      - "3001:3001"
     depends_on:
       - mongo
-    environment:
-      DATABASE_URL: mongo
+  #   - graph
+  # TODO
+  # graph:
+  #   build: .
+  #   command: npm run graph
+  #   volumes:
+  #     - .:/usr/src/graph
+  #     - /usr/app/node_modules
+  #   ports:
+  #     - "3002:3002"
+  #   depends_on:
+  #     - mongo
+  #   environment:
+  #     DATABASE_URL: mongo
   mongo:
     image: 'bitnami/mongodb:3.6'
     labels:
