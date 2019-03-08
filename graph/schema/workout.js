@@ -1,7 +1,7 @@
 const workout = `
   type Workout {
     id: ID
-    Routine: Routine
+    routine: Routine
     block: Int
     cycle: Int
     Items: [WorkoutItem]

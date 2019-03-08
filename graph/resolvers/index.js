@@ -1,7 +1,11 @@
-import Item from './item.js';
+import Item from './item';
+import Workout from './workout'
 
 const resolvers = {
-    ...Item
+    ...Item,
+    Query: {
+        ...Workout
+    }
 };
 
 export default resolvers;
