@@ -1,10 +1,10 @@
 const workout = `
   type Workout {
     id: ID
-    routine: Routine
-    block: Int
-    cycle: Int
-    Items: [WorkoutItem]
+    name: String
+    session: ID
+    exercises: [WorkoutExercise]
+    date: String
   }
 `;
 

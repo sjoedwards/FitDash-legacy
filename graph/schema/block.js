@@ -1,8 +1,9 @@
 const block = `
   type Block {
     name: String
+    cycle: ID
     id: ID
-    routines: [Routine]
+    sessions: [Session]
   }
-`
+`;
 export default block;

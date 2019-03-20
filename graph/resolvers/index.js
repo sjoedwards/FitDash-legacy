@@ -1,8 +1,8 @@
-import Item from './item';
-import Workout from './workout'
+import Exercise from './exercise';
+import Workout from './workout';
 
 const resolvers = {
-    ...Item,
+    ...Exercise,
     Query: {
         ...Workout
     }

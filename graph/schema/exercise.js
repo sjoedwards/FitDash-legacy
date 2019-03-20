@@ -1,9 +1,12 @@
-const exercise = `
-  type Exercise {
-    id: ID,
-    name: String,
-    muscleGroups: [MuscleGroup]
+const Exercise = `
+  interface Exercise {
+    id: ID
+    name: String
+    reps: Int
+    sets: Int
+    rest: Int
+    tempo: String
   }
 `;
 
-export default exercise;
+export default Exercise;

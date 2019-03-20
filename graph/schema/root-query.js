@@ -1,15 +1,15 @@
 const RootSchema = `
 	type Query {
 		Workout(id: ID): Workout,
-		Workouts(routine: ID, block: ID, cycle: ID): [Workout],
+		Workouts: [Workout],
 		Cycle(id: ID): Cycle,
 		Cycles: [Cycle],
 		Block(id: ID): Block
-		Blocks(cycle: ID): [Block],
-		Routine(id: ID): Routine,
-		Routines(cycle: ID, block: ID): [Routine],
-		WorkoutItem(id: ID): Item,
-		RoutineItem(id: ID): Item
+		Blocks: [Block],
+		Session(id: ID): Session,
+		Sessions: [Session],
+		WorkoutExercise(id: ID): Exercise,
+		SessionExercise(id: ID): Exercise
 	}
-`
+`;
 export default RootSchema;
