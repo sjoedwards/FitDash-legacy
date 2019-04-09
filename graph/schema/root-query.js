@@ -8,8 +8,10 @@ const RootSchema = `
 		Blocks: [Block],
 		Session(id: ID): Session,
 		Sessions: [Session],
-		WorkoutExercise(id: ID): Exercise,
-		SessionExercise(id: ID): Exercise
+		WorkoutExercise(id: ID): WorkoutExercise,
+		SessionExercise(id: ID): WorkoutExercise,
+		Exercise(id: ID): Exercise,
+		Exercises: [Exercises]
 	}
 `;
 export default RootSchema;

@@ -7,6 +7,7 @@ const workoutExercise = `
     rest: Int
     tempo: String
     workout: ID
+    weight: Int
   }
 `;
 
