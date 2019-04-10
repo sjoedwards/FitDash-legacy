@@ -10,6 +10,8 @@ const workoutExercise = `
     workout: ID
     weight: [Int]
     time: [Int]
+    bestWeight: Int
+    bestTime: Int
   }
 `;
 

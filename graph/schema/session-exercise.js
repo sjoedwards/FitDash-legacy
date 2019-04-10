@@ -8,6 +8,8 @@ const sessionExercise = `
     rest: Float
     tempo: String
     session: ID
+    bestWeight: Int
+    bestTime: Int
   }
 `;
 

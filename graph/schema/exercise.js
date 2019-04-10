@@ -2,11 +2,8 @@ const Exercise = `
   interface Exercise {
     id: ID
     name: String
-    reps: Int
-    distance: Int
-    sets: Int
-    rest: Float
-    tempo: String
+    bestWeight: Int
+    bestTime: Int
   }
 `;
 
