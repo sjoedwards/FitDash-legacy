@@ -3,6 +3,7 @@ const Exercise = `
     id: ID
     name: String
     reps: Int
+    distance: Int
     sets: Int
     rest: Float
     tempo: String
