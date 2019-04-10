@@ -4,7 +4,7 @@ const workoutExercise = `
     name: String
     reps: Int
     sets: Int
-    rest: Int
+    rest: Float
     tempo: String
     workout: ID
     weight: Int

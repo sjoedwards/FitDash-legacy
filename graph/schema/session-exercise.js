@@ -4,7 +4,7 @@ const sessionExercise = `
     name: String
     reps: Int
     sets: Int
-    rest: Int
+    rest: Float
     tempo: String
     session: ID
   }
