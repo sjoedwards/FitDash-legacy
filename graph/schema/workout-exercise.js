@@ -8,7 +8,8 @@ const workoutExercise = `
     rest: Float
     tempo: String
     workout: ID
-    weight: Int
+    weight: [Int]
+    time: [Int]
   }
 `;
 
