@@ -1,3 +1,20 @@
+# Fitdash
+
+Project to log and visualise fitness progression, with a specific focus on strength training :muscle:
+
+## Technologies
+
+- MongoDB
+- Express
+- React
+- Node
+- Typescript
+- Docker
+- GraphQL
+- Apollo
+
+## Working documentation
+
 ### Access mongo command line
 docker-compose up mongo
 docker exec -it fitdash_mongo_1 /bin/bash
