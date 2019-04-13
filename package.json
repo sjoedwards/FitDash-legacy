@@ -4,12 +4,9 @@
   "description": "",
   "scripts": {
     "start": "webpack-dev-server --mode=development --env.PLATFORM=local --env.VERSION=stag --config config/webpack.base.config.js",
-    "prebuild": "rm -rf dist && webpack --mode production --config config/webpack.prod.config.js --env.PLATFORM=production --env.VERSION=stag --progress",
-    "build": "node server",
     "test": "jest",
     "server": "nodemon server/index.js --exec babel-node",
     "graph": "nodemon graph/index.js --exec babel-node",
-    "dev": "concurrently \"npm run server\" \"npm run start\"",
     "format": "eslint; tsc *.js"
   },
   "author": "",
