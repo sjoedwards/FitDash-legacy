@@ -16,8 +16,8 @@ Project to log and visualise fitness progression, with a specific focus on stren
 ## Working documentation
 
 ### Access mongo command line
-docker-compose up mongo
-docker exec -it fitdash_mongo_1 /bin/bash
+- `$ docker-compose up mongo`
+- `$ docker exec -it fitdash_mongo_1 /bin/bash`
 
 ### Importing CSV data to dockerized mongoDB:
 - Place .csv in folder `mongodb`, with the name being the container you want to import into
