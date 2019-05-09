@@ -5,8 +5,8 @@ services:
     build: .
     command: npm run server
     volumes:
-      - .:/usr/src/app
-      - /usr/app/node_modules
+      - .:/app
+      - /app/node_modules/
     ports:
       - "3001:3001"
     depends_on:

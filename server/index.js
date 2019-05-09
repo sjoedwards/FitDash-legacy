@@ -33,7 +33,7 @@ app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
 
 
 /** Get port from environment and store in Express. */
-const port = process.env.PORT || '9000';
+const port = process.env.PORT || '3001';
 console.log('port: ', port);
 app.set('port', port);
 
