@@ -7,7 +7,9 @@
     "test": "jest",
     "server": "nodemon server/index.js --mode=development --exec babel-node",
     "graph": "nodemon graph/index.js --exec babel-node",
-    "format": "eslint; tsc *.js"
+    "format": "eslint; tsc *.js",
+    "autopopulate": "node ./mongodb/autopopulate.js",
+    "docker:web:bash": "docker exec -u root -t -i fitdash_web /bin/ash"
   },
   "author": "",
   "license": "ISC",
