@@ -1,4 +1,3 @@
-// getting-started.js
 const mongoose = require('mongoose');
 const options = {
     useNewUrlParser: true,
