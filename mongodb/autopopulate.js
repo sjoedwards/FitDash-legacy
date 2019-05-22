@@ -3,7 +3,11 @@ const options = {
     useNewUrlParser: true,
 };
 
-const cycles = [{ _id: '1', name: 'Cycle 1' },{ _id: '2', name: 'Cycle 2' },{ _id: '3', name: 'Cycle 3' }];
+const cycles = require('./Cycles');
+const blocks = require('./Blocks');
+const exercises = require('./Exercises');
+const sessions = require('./Sessions');
+const sessionExercises = require('./SessionExercises');
 
 const cycleSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.Mixed,
