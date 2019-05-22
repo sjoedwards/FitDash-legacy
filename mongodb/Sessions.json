@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Session 1",
+    "block": 1
+  },
+  {
+    "id": 2,
+    "name": "Session 2",
+    "block": 1
+  },
+  {
+    "id": 3,
+    "name": "Session 3",
+    "block": 1
+  }
+]

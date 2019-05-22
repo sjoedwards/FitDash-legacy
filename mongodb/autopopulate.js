@@ -5,9 +5,28 @@ const options = {
 
 const cycles = [{ _id: '1', name: 'Cycle 1' },{ _id: '2', name: 'Cycle 2' },{ _id: '3', name: 'Cycle 3' }];
 
-var cycleSchema = new mongoose.Schema({
+const cycleSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.Mixed,
     name: String
+});
+
+const blockSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.Mixed,
+    name: String
+});
+
+const exerciseSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.Mixed,
+    name: String,
+});
+
+const sessionExerciseSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.Mixed,
+    reps: Number,
+    sets: Number,
+    rest: Number,
+    tempo: String,
+    sessionId: Number
 });
 
 const dropCollection = () => {

@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "Name": "Back Squat"
+  },
+  {
+    "Id": 2,
+    "Name": "Romaian Deadlift"
+  },
+  {
+    "Id": 3,
+    "Name": "Dumbbell Split Squat"
+  },
+  {
+    "Id": 4,
+    "Name": "Polequin Step"
+  },
+  {
+    "Id": 5,
+    "Name": "Single Leg Leg Press"
+  },
+  {
+    "Id": 6,
+    "Name": "Lying Leg Curl"
+  },
+  {
+    "Id": 7,
+    "Name": "Nordic Curls"
+  },
+  {
+    "Id": 8,
+    "Name": "Bench Press"
+  },
+  {
+    "Id": 9,
+    "Name": "Seated Dumbbell Press"
+  },
+  {
+    "Id": 10,
+    "Name": "Bodyweight Dips"
+  },
+  {
+    "Id": 11,
+    "Name": "Pull ups or assisted Pull ups"
+  },
+  {
+    "Id": 12,
+    "Name": "Rowing Machine"
+  },
+  {
+    "Id": 13,
+    "Name": "Ski Erg"
+  },
+  {
+    "Id": 14,
+    "Name": "Kettlbell Swing"
+  },
+  {
+    "Id": 15,
+    "Name": "Trap Bar Deadlift"
+  },
+  {
+    "Id": 16,
+    "Name": "Bent Over Row"
+  },
+  {
+    "Id": 17,
+    "Name": "Dumbbell Bench Press"
+  },
+  {
+    "Id": 18,
+    "Name": "Good Morning"
+  },
+  {
+    "Id": 19,
+    "Name": "Swiss Ball Crunch Isometric"
+  },
+  {
+    "Id": 20,
+    "Name": "Burpees"
+  },
+  {
+    "Id": 21,
+    "Name": "TRX Row"
+  },
+  {
+    "Id": 22,
+    "Name": "Press-up"
+  }
+]
