@@ -11,9 +11,9 @@ var cycleSchema = new mongoose.Schema({
     name: String
 });
 
-function dropCollection() {
+const dropCollection = () => {
     return db.dropCollection('cycles');
-}
+};
 
 const importCollection = (name, data, schema) => {
     return data.map(async object => {
