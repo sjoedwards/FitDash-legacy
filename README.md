@@ -20,8 +20,8 @@ Project to log and visualise fitness progression, with a specific focus on stren
 - `$ docker exec -it fitdash_mongo_1 /bin/bash`
 
 ### Importing CSV data to dockerized mongoDB:
-- Place .csv in folder `mongodb`, with the name being the container you want to import into
-- Start docker container using `$ docker-compose up mongo`
-- `$ cd mongodb`
-- `$ sh ./test-data-populate.sh`
-- Check has imported into MongoDB using `$ docker-compose up mongo-express` and visiting `http://localhost:8081/`
+- WIP
+- `$ docker-compose up`
+- `$ npm run docker:web:bash`
+- In docker container:
+- `$ npm run autopopulate`
