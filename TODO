@@ -3,7 +3,6 @@
 - [X] https://www.npmjs.com/package/webpack-hot-middleware
 - [X] Get typescript working with webpack
 - [X] Abstract page components to separate components
-  - [ ] + add preliminary tests
 - [X] Create graphQL boiler
 - [X] Design graphQL schema
 - [ ] Create Resolvers for current graphQL Schema 
@@ -14,3 +13,11 @@
 - [ ] Setup the production webpack (for ES6 server code too)
 - [ ] Convert router to typescript
 - [ ] Add tests for server code
+
+
+# Step 1 - Adding a cycle to fitdash
+- [ ] Add cycles page
+- [ ] Add add cycles button
+- [ ] Add cycle GQL schema
+- [ ] Create GQL mutation for cycle
+- [ ] Create mongo db cycle connector
