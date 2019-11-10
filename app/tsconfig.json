@@ -1,0 +1,21 @@
+{ 
+    "compilerOptions": {
+          "outDir": "./dist/",
+          "sourceMap": true,
+          "noImplicitAny": true,
+          "module": "commonjs",
+          "target": "es5",
+          "jsx": "react",
+          "allowSyntheticDefaultImports": true,
+          "esModuleInterop": true,
+          "skipLibCheck": true,
+          "forceConsistentCasingInFileNames": false
+      },
+      "exclude": [
+          "node_modules",
+          "**/*.spec.ts*"
+      ],
+      "include": [
+          "./src/**/*",
+      ]
+}

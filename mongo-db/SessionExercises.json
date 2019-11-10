@@ -1,0 +1,185 @@
+[
+  {
+    "_id": 1,
+    "ExerciseId": 1,
+    "Reps": 5,
+    "Sets": 5,
+    "Rest": 2,
+    "Tempo": 2111,
+    "SessionId": 1
+  },
+  {
+    "_id": 2,
+    "ExerciseId": 2,
+    "Reps": 4,
+    "Sets": 8,
+    "Rest": 2,
+    "Tempo": 3111,
+    "SessionId": 1
+  },
+  {
+    "_id": 3,
+    "ExerciseId": 3,
+    "Reps": 3,
+    "Sets": 12,
+    "Rest": 1.5,
+    "Tempo": 2111,
+    "SessionId": 1
+  },
+  {
+    "_id": 4,
+    "ExerciseId": 4,
+    "Reps": 3,
+    "Sets": 10,
+    "Rest": 1.5,
+    "Tempo": 3111,
+    "SessionId": 1
+  },
+  {
+    "_id": 5,
+    "ExerciseId": 5,
+    "Reps": 3,
+    "Sets": 10,
+    "Rest": 1.5,
+    "Tempo": 3111,
+    "SessionId": 1
+  },
+  {
+    "_id": 6,
+    "ExerciseId": 6,
+    "Reps": 3,
+    "Sets": 12,
+    "Rest": "",
+    "Tempo": "",
+    "SessionId": 1
+  },
+  {
+    "_id": 1,
+    "ExerciseId": 7,
+    "Reps": 3,
+    "Sets": 6,
+    "Rest": 2,
+    "Tempo": "",
+    "SessionId": 1
+  },
+  {
+    "ExerciseId": 8,
+    "Reps": 5,
+    "Sets": 5,
+    "Rest": 2,
+    "Tempo": 2111,
+    "SessionId": 2
+  },
+  {
+    "ExerciseId": 9,
+    "Reps": 4,
+    "Sets": 8,
+    "Rest": 2,
+    "Tempo": 3111,
+    "SessionId": 2
+  },
+  {
+    "ExerciseId": 10,
+    "Reps": 3,
+    "Sets": "AMRAP",
+    "Rest": 1.5,
+    "Tempo": 2111,
+    "SessionId": 2
+  },
+  {
+    "ExerciseId": 11,
+    "Reps": 3,
+    "Sets": "AMRAP",
+    "Rest": 1.5,
+    "Tempo": 2111,
+    "SessionId": 2
+  },
+  {
+    "ExerciseId": 12,
+    "Reps": 5,
+    "Sets": "1000m",
+    "Rest": 3,
+    "Tempo": "",
+    "SessionId": 2
+  },
+  {
+    "ExerciseId": 13,
+    "Reps": 3,
+    "Sets": "500m",
+    "Rest": "",
+    "Tempo": "",
+    "SessionId": 2
+  },
+  {
+    "ExerciseId": 14,
+    "Reps": 3,
+    "Sets": 20,
+    "Rest": 2,
+    "Tempo": "",
+    "SessionId": 2
+  },
+  {
+    "ExerciseId": 15,
+    "Reps": 5,
+    "Sets": 5,
+    "Rest": 2,
+    "Tempo": "",
+    "SessionId": 3
+  },
+  {
+    "ExerciseId": 16,
+    "Reps": 3,
+    "Sets": 12,
+    "Rest": 1.5,
+    "Tempo": "",
+    "SessionId": 3
+  },
+  {
+    "ExerciseId": 17,
+    "Reps": 3,
+    "Sets": 12,
+    "Rest": 1.5,
+    "Tempo": "",
+    "SessionId": 3
+  },
+  {
+    "ExerciseId": 18,
+    "Reps": 3,
+    "Sets": 12,
+    "Rest": 1.5,
+    "Tempo": "",
+    "SessionId": 3
+  },
+  {
+    "ExerciseId": 19,
+    "Reps": 3,
+    "Sets": "30 sec",
+    "Rest": 1,
+    "Tempo": "",
+    "SessionId": 3
+  },
+  {
+    "ExerciseId": 20,
+    "Reps": 4,
+    "Sets": 12,
+    "Rest": "",
+    "Tempo": "",
+    "SessionId": 3
+  },
+  {
+    "ExerciseId": 21,
+    "Reps": 4,
+    "Sets": 12,
+    "Rest": "",
+    "Tempo": "",
+    "SessionId": 3
+  },
+  {
+    "ExerciseId": 22,
+    "Reps": 4,
+    "Sets": 12,
+    "Rest": "2 mins",
+    "Tempo": "",
+    "SessionId": 3
+  }
+]
