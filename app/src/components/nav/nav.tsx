@@ -8,13 +8,7 @@ const Nav = () => {
                 <Link to="/">Home</Link>
             </li>
             <li>
-                <Link to="/plan">Plan</Link>
-            </li>
-            <li>
-                <Link to="/progress">Progress</Link>
-            </li>
-            <li>
-                <Link to="/record">Record</Link>
+                <Link to="/cycles">Cycles</Link>
             </li>
         </ul>
     );

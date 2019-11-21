@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "webpack-dev-server --mode=development --env.PLATFORM=local --env.VERSION=stag --config config/webpack.base.config.js",
     "test": "jest",
     "server": "nodemon server/index.js --mode=development --exec babel-node",
     "graph": "nodemon graph/index.js --exec babel-node",
@@ -15,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/enzyme": "^3.1.17",
-    "@types/jest": "^24.0.1",
+    "@types/jest": "^24.0.23",
     "@types/react": "^16.8.2",
     "@types/react-dom": "^16.8.0",
     "@types/react-redux": "^7.0.1",

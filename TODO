@@ -5,9 +5,12 @@
 - [X] Abstract page components to separate components
 - [X] Create graphQL boiler
 - [X] Design graphQL schema
-- [ ] Create Resolvers for current graphQL Schema 
+- [ ] Rewrite server in KOA
+- [ ] Convert GQL server to koa-graphql
+- [ ] Rewrite webpack not to be rubbish
+- [ ] Create Resolvers for current graphQL Schema
 - [ ] Dockerise GraphQL
-- [ ] install apollo boilerplate into application
+- [ ] Add relay into app
 - [ ] Test the reactRouter (https://stackoverflow.com/questions/41531465/how-to-test-react-router-with-enzyme)
 - [ ] Test writing to the local instance of mongo, check persistance
 - [ ] Setup the production webpack (for ES6 server code too)
@@ -16,7 +19,7 @@
 
 
 # Step 1 - Adding a cycle to fitdash
-- [ ] Add cycles page
+- [X] Add cycles page
 - [ ] Add add cycles button
 - [ ] Add cycle GQL schema
 - [ ] Create GQL mutation for cycle

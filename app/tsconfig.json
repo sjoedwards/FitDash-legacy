@@ -9,7 +9,8 @@
           "allowSyntheticDefaultImports": true,
           "esModuleInterop": true,
           "skipLibCheck": true,
-          "forceConsistentCasingInFileNames": false
+          "forceConsistentCasingInFileNames": false,
+          "types" : ["jest"]
       },
       "exclude": [
           "node_modules",
