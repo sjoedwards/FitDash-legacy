@@ -1,8 +1,8 @@
 import React from 'react';
-import Home from './components/pages/home';
-import Cycles from './components/pages/cycles';
+import Home from './pages/home';
+import Plan from './pages/plan';
 
-import PageNotFound from './components/pages/page-not-found';
+import PageNotFound from './pages/page-not-found';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 interface Props {
@@ -15,7 +15,7 @@ const ReactRouter = (props: Props) => (
             {props.children}
             <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/cycles/" component={Cycles} />
+                <Route path="/plan/" component={Plan} />
                 <Route component={PageNotFound} />
             </Switch>
         </div>
