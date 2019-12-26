@@ -28,8 +28,8 @@ const Plan = (props: Props) => {
     </main>
     <h2>Plan</h2>
     {current.value === 'loading' && renderLoading()}
-    {current.context.data && renderPlan(current.context.data)}
-    <Button title="Add Cycle" action={handleClick} />
+    {current.context.plan.cycles.length > 0 && renderPlan(current.context.plan.cycles) }
+    <Button title="Add Cycle" action={() => send('ADD_CYCLE')} />
   </Fragment>
   )
 };

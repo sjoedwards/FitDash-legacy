@@ -1,27 +1,43 @@
 import { Machine, assign, send } from 'xstate';
 
-const loadPlans = ():Promise<any> => {
+const loadPlans = (ctx: PlanContext):Promise<any> => {
   return new Promise<any>((resolve) => {
     setTimeout(() => {
-      resolve({test:'test'});
+      resolve(ctx.plan);
     }, 2000);
   });
+}
+
+const addCycle = ():Promise<any> => {
+  return new Promise<object>((resolve) => {
+    setTimeout(() => {
+      resolve({
+        name: 'Cycle 1'
+      });
+    }, 2000);
+  })
 }
 
 interface PlanStateSchema {
   states: {
     loading: {},
     loaded: {},
-    error: {}
+    error: {},
+    addingCycle: {}
   }
 }
 
 interface PlanContext {
-  data: object
+  plan: {
+    cycles: Array<object>
+  }
 }
 
 type PlanEvent = {
   type: 'onDone',
+  data: object
+} | {
+  type: 'ADD_CYCLE',
   data: object
 }
 
@@ -29,7 +45,14 @@ export default Machine<PlanContext, PlanStateSchema, PlanEvent>({
   id: 'plan',
   initial: 'loading',
   context: {
-    data: undefined
+    plan: {
+      cycles: []
+    }
+  },
+  on: {
+    'ADD_CYCLE': {
+      target: 'addingCycle'
+    }
   },
   states: {
     loading: {
@@ -38,15 +61,27 @@ export default Machine<PlanContext, PlanStateSchema, PlanEvent>({
         src: loadPlans,
         onDone: {
             target: 'loaded',
-            actions: assign({ data: (_, event) => event.data})
+            actions: assign({ plan: (_, event) => event.data})
         },
         onError: {
           target: 'error',
         }
       },
     },
-    loaded: {
-    },
+    loaded: {},
     error: {},
+    addingCycle: {
+      invoke: {
+        id: 'add-cycle',
+        src: addCycle,
+        onDone: {
+          target: 'loaded',
+          actions: assign((ctx:PlanContext, event:PlanEvent) => {
+            const test = [...ctx.plan.cycles, event.data];
+            return {...ctx, plan: {...ctx.plan, cycles: [...ctx.plan.cycles, event.data] }}
+          })
+        },
+      },
+    }
   },
 });
