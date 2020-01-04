@@ -1,14 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { RouterEvent, RouterContext, RouterState } from '../../machines/plan-machine'
+import { Link } from 'react-router-dom'
+import { State } from 'xstate';
 
-const Nav = () => {
+interface Props {
+    current: State<RouterContext, RouterEvent, RouterState>,
+    send: Function
+  }
+
+const Nav = (props: Props) => {
     return (
         <ul>
             <li>
-                <Link to="/">Home</Link>
+                <div>Home</div>
             </li>
             <li>
-                <Link to="/plan">Plan</Link>
+                <Link to="/plan" onClick={() => props.send('CHANGE_ROUTE_PLAN')}>Plan</Link>
             </li>
         </ul>
     );

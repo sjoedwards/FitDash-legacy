@@ -39,6 +39,9 @@ type PlanEvent = {
 } | {
   type: 'ADD_CYCLE',
   data: object
+} | {
+  type: 'CHANGE_ROUTE_PLAN',
+  data: object
 }
 
 
@@ -48,7 +51,7 @@ export interface RouterContext {
   }
 }
 
-export interface RouterStateSchema {
+export interface RouterState {
   states: {
     home: {},
     plan: {
@@ -66,7 +69,7 @@ export type RouterEvent =
   PlanEvent
 
 
-export default Machine<RouterContext, RouterStateSchema, RouterEvent>({
+export default Machine<RouterContext, RouterState, RouterEvent>({
   id: 'router',
   initial: 'home',
   context: {
@@ -75,7 +78,13 @@ export default Machine<RouterContext, RouterStateSchema, RouterEvent>({
     }
   },
   states: {
-    home: {},
+    home: {
+      on: {
+        'CHANGE_ROUTE_PLAN': {
+          target: 'plan'
+        }
+      },
+    },
     plan: {
       initial: 'loading',
       states: {
