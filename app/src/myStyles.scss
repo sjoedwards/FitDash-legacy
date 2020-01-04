@@ -15,3 +15,12 @@ body {
     object-fit: cover;
   }
 }
+
+.state-monitor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: white;
+  border: 2px solid black;
+  padding: 20px;
+}

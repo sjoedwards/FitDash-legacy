@@ -41,47 +41,79 @@ type PlanEvent = {
   data: object
 }
 
-export default Machine<PlanContext, PlanStateSchema, PlanEvent>({
-  id: 'plan',
-  initial: 'loading',
+
+export interface RouterContext {
+  plan: {
+    cycles: Array<object>
+  }
+}
+
+export interface RouterStateSchema {
+  states: {
+    home: {},
+    plan: {
+      states: {
+        loading: {},
+        loaded: {},
+        error: {},
+        addingCycle: {}
+      }
+    }
+  }
+}
+
+export type RouterEvent =
+  PlanEvent
+
+
+export default Machine<RouterContext, RouterStateSchema, RouterEvent>({
+  id: 'router',
+  initial: 'home',
   context: {
     plan: {
       cycles: []
     }
   },
-  on: {
-    'ADD_CYCLE': {
-      target: 'addingCycle'
-    }
-  },
   states: {
-    loading: {
-      invoke: {
-        id: 'load-plans',
-        src: loadPlans,
-        onDone: {
-            target: 'loaded',
-            actions: assign({ plan: (_, event) => event.data})
+    home: {},
+    plan: {
+      initial: 'loading',
+      states: {
+          loading: {
+            invoke: {
+              id: 'load-plans',
+              src: loadPlans,
+              onDone: {
+                  target: 'loaded',
+                  actions: assign({ plan: (_, event) => event.data})
+              },
+              onError: {
+                target: 'error',
+              }
+            },
+          },
+          loaded: {
+            on: {
+              'ADD_CYCLE': {
+                target: 'addingCycle'
+              }
+            },
+          },
+          error: {},
+          addingCycle: {
+            invoke: {
+              id: 'add-cycle',
+              src: addCycle,
+              onDone: {
+                target: 'loaded',
+                actions: assign((ctx:PlanContext, event:PlanEvent) => {
+                  return {...ctx, plan: {...ctx.plan, cycles: [...ctx.plan.cycles, event.data] }}
+                })
+              },
+            },
+          }
         },
-        onError: {
-          target: 'error',
-        }
-      },
-    },
-    loaded: {},
-    error: {},
-    addingCycle: {
-      invoke: {
-        id: 'add-cycle',
-        src: addCycle,
-        onDone: {
-          target: 'loaded',
-          actions: assign((ctx:PlanContext, event:PlanEvent) => {
-            const test = [...ctx.plan.cycles, event.data];
-            return {...ctx, plan: {...ctx.plan, cycles: [...ctx.plan.cycles, event.data] }}
-          })
-        },
-      },
+      }
     }
-  },
-});
+  })
+

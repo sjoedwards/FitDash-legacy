@@ -1,9 +1,12 @@
 import React, {Fragment} from 'react';
 import Button from '../components/button/button';
 import { useMachine } from '@xstate/react';
-import  planMachine from '../machines/plan-machine'
+import  planMachine, {RouterEvent, RouterContext, RouterState } from '../machines/plan-machine'
+import { State } from 'xstate';
 
 interface Props {
+  current: State<RouterContext, RouterEvent, RouterState>,
+  send: Function
 }
 
 const handleClick = () => {
@@ -19,17 +22,12 @@ const renderPlan = (data:object) => (
 )
 
 const Plan = (props: Props) => {
-  const [current, send] = useMachine(planMachine);
   return (
     <Fragment>
-    <main>
-      <p>State: {current.value}</p>
-      <p>Context: {JSON.stringify(current.context, null, 1 )}</p>
-    </main>
     <h2>Plan</h2>
-    {current.value === 'loading' && renderLoading()}
-    {current.context.plan.cycles.length > 0 && renderPlan(current.context.plan.cycles) }
-    <Button title="Add Cycle" action={() => send('ADD_CYCLE')} />
+    {props.current.matches({plan: 'loading'}) && renderLoading()}
+    {props.current.context.plan.cycles.length > 0 && renderPlan(props.current.context.plan.cycles) }
+    <Button title="Add Cycle" action={() => props.send('ADD_CYCLE')} />
   </Fragment>
   )
 };
