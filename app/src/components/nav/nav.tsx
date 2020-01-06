@@ -12,10 +12,10 @@ const Nav = (props: Props) => {
     return (
         <ul>
             <li>
-                <div>Home</div>
+                <Link to="/">Home</Link>
             </li>
             <li>
-                <Link to="/plan" onClick={() => props.send('CHANGE_ROUTE_PLAN')}>Plan</Link>
+                <Link to="/plan">Plan</Link>
             </li>
         </ul>
     );

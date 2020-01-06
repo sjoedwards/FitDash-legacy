@@ -70,21 +70,16 @@ export type RouterEvent =
 
 
 export default Machine<RouterContext, RouterState, RouterEvent>({
-  id: 'router',
+  id: 'root',
   initial: 'home',
+  type: 'parallel',
   context: {
     plan: {
       cycles: []
     }
   },
   states: {
-    home: {
-      on: {
-        'CHANGE_ROUTE_PLAN': {
-          target: 'plan'
-        }
-      },
-    },
+    home: {},
     plan: {
       initial: 'loading',
       states: {

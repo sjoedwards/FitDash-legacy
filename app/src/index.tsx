@@ -15,7 +15,6 @@ const store = configureStore(/* provide initial state if any */);
 const App = () => {
 
     const [current, send] = useMachine(planMachine);
-
     return (
         <Fragment>
             <div className="state-monitor">
