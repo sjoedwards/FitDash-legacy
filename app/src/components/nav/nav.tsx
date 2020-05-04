@@ -1,14 +1,9 @@
 import React from 'react';
-import { RouterEvent, RouterContext, RouterState } from '../../machines/plan-machine'
+import { PlanContext } from '../../machines/plan-machine'
 import { Link } from 'react-router-dom'
 import { State } from 'xstate';
 
-interface Props {
-    current: State<RouterContext, RouterEvent, RouterState>,
-    send: Function
-  }
-
-const Nav = (props: Props) => {
+const Nav = () => {
     return (
         <ul>
             <li>

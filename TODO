@@ -5,6 +5,7 @@
 - [X] Abstract page components to separate components
 - [X] Create graphQL boiler
 - [X] Design graphQL schema
+- [ ] Replace redux with usereducer
 - [ ] Rewrite server in KOA
 - [ ] Convert GQL server to koa-graphql
 - [ ] Rewrite webpack not to be rubbish
@@ -20,7 +21,7 @@
 
 # Step 1 - Adding a cycle to fitdash
 - [X] Add cycles page
-- [ ] Add add cycles button
+- [X] Add add cycles button
 - [ ] Add cycle GQL schema
 - [ ] Create GQL mutation for cycle
 - [ ] Create mongo db cycle connector
