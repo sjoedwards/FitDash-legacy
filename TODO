@@ -5,6 +5,17 @@
 - [X] Abstract page components to separate components
 - [X] Create graphQL boiler
 - [X] Design graphQL schema
+
+
+# Features
+
+- [ ] Plan
+- [ ] Functionality to add a Cycle
+- [ ] Functionality to add a block
+- [ ] Functionality to add a session
+- [ ] Functionality to add a exercise
+
+# Tech debt
 - [ ] Replace redux with usereducer
 - [ ] Rewrite server in KOA
 - [ ] Convert GQL server to koa-graphql
