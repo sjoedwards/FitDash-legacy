@@ -6,6 +6,13 @@
 - [X] Create graphQL boiler
 - [X] Design graphQL schema
 
+# Data sync
+
+- [ ] Get activities
+- [ ] Extract runs from time period
+- [ ] Extract to CSV
+- [ ] Create NPM package
+- [ ] Integrate into front end?
 
 # Features
 

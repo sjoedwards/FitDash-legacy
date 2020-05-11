@@ -1,0 +1,23 @@
+{
+  "name": "fitbit-sync",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "scripts": {
+    "start": "nodemon ./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@koa/router": "^8.0.8",
+    "atob": "^2.1.2",
+    "axios": "^0.19.2",
+    "btoa": "^1.2.1",
+    "dotenv": "^8.2.0",
+    "getenv": "^1.0.0",
+    "koa": "^2.11.0"
+  }
+}
