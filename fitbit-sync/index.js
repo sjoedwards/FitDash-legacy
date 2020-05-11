@@ -3,9 +3,10 @@ const app = new Koa();
 const Router = require('@koa/router');
 const router = new Router();
 const axios = require('axios');
-const fs = require('fs')
 const btoa = require('btoa')
 const atob = require('atob')
+const moment = require('moment')
+const ObjectsToCsv = require('objects-to-csv')
 require('dotenv').config({ path: '../.env' })
 
 let accessToken;
@@ -49,7 +50,15 @@ const getToken = async ctx => {
 }
 
 const getActivities = async ctx => {
-  
+  const headers = {
+    Authorization: `Bearer ${accessToken}`
+  }
+  try {
+    return await axios({url: `https://api.fitbit.com/1/user/-/activities/list.json?beforeDate=${moment().add(1, 'days').format(("YYYY-MM-DD"))}&offset=1&limit=20&sort=desc`, method: 'get', headers})
+  } catch (e) {
+    console.log(e.message)
+    console.log(e && e.response && e.response.data && e.response.data.errors)
+  }
 }
 
 (async () => {
@@ -67,8 +76,21 @@ const getActivities = async ctx => {
     }
     if (accessToken) {
       const activities = await getActivities(ctx)
-      console.log('activities: ', activities);
-    } else if (ctx.status == 302) {
+      if (activities && activities.data && activities.data.activities) {
+        const formattedActivities = activities.data.activities.filter(activity => activity.activityName == 'Run').map(({distance, pace, originalStartTime, activeDuration}) => {
+          return {
+            date: moment(originalStartTime).format(("YYYY-MM-DD")),
+            distance: distance.toFixed(2),
+            duration: moment.utc(moment.duration((activeDuration), "milliseconds").asMilliseconds()).format("HH:mm:ss"),
+            pace: moment.utc(moment.duration(pace, "seconds").asMilliseconds()).format("HH:mm:ss")
+          }
+        })
+      const csv = new ObjectsToCsv(formattedActivities)
+      await csv.toDisk(`./results/${moment().format(("YYYY-MM-DD"))}-runs.csv`);
+      ctx.body = await csv.toString()
+      }
+    }
+    if (ctx.status == 302) {
       return
     } else {
       ctx.status = 400
