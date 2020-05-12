@@ -8,9 +8,9 @@
 
 # Data sync
 
-- [ ] Get activities
-- [ ] Extract runs from time period
-- [ ] Extract to CSV
+- [X] Get activities
+- [X] Extract runs from time period
+- [X] Extract to CSV
 - [ ] Create NPM package
 - [ ] Integrate into front end?
 
@@ -23,13 +23,13 @@
 - [ ] Functionality to add a exercise
 
 # Tech debt
+- [X] Rewrite server in KOA
+- [ ] Convert GQL server to apollo koa-graphql
+- [ ] Add relay into app
 - [ ] Replace redux with usereducer
-- [ ] Rewrite server in KOA
-- [ ] Convert GQL server to koa-graphql
 - [ ] Rewrite webpack not to be rubbish
 - [ ] Create Resolvers for current graphQL Schema
 - [ ] Dockerise GraphQL
-- [ ] Add relay into app
 - [ ] Test the reactRouter (https://stackoverflow.com/questions/41531465/how-to-test-react-router-with-enzyme)
 - [ ] Test writing to the local instance of mongo, check persistance
 - [ ] Setup the production webpack (for ES6 server code too)
@@ -40,6 +40,7 @@
 # Step 1 - Adding a cycle to fitdash
 - [X] Add cycles page
 - [X] Add add cycles button
+- [ ] Add relay query for cycle
 - [ ] Add cycle GQL schema
 - [ ] Create GQL mutation for cycle
 - [ ] Create mongo db cycle connector
