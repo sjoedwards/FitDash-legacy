@@ -72,6 +72,40 @@ const getCalories = async (ctx, weeksAgo) => {
   return {weekEnd, calories}
 }
 
+const getMacros = async (ctx, weeksAgo) => {
+  const headers = {
+    Authorization: `Bearer ${ctx.state.token}`
+  }
+  const weekStart = moment().subtract(weeksAgo, 'weeks').startOf('isoWeek').format("YYYY-MM-DD");
+  const weekEnd = moment().subtract(weeksAgo, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
+  const macros = (await Promise.all(Array(7).fill(undefined).map(async (_, index) => {
+    const date = moment(weekStart).add(index, 'days').format("YYYY-MM-DD");
+    const macrosResult = (await axios({url: `https://api.fitbit.com/1/user/-/foods/log/date/${date}.json`, method: 'get', headers})).data.summary
+    const {calories, protein, carbs, fat } = macrosResult
+    return {
+      date,
+      calories,
+      protien: ((4 * protein) / calories),
+      carbs: ((4 * carbs) / calories),
+      fat: ((9 * fat) / calories)
+    }
+  })))
+  const weekMacros = macros.reduce((acc, entry) => {
+    return {
+      fat: acc.fat + parseFloat(entry.fat),
+      protien: acc.protien + parseFloat(entry.protien),
+      carbs: acc.carbs + parseFloat(entry.carbs)
+    }
+  }, {fat: 0, protien: 0, carbs: 0})
+
+  return {
+    weekEnd,
+    fat: (weekMacros.fat / macros.length).toFixed(2),
+    carbs: (weekMacros.carbs / macros.length).toFixed(2),
+    protien: (weekMacros.protien / macros.length).toFixed(2),
+  }
+}
+
 (async () => {
 
   router.get('/authn', async ctx => {
@@ -79,9 +113,7 @@ const getCalories = async (ctx, weeksAgo) => {
   })
 
   router.get('/calories', async ctx => {
-      try {
-
-          const calories = (await Promise.all(Array(6).fill(undefined).map(async (value, index) => {
+          const calories = (await Promise.all(Array(6).fill(undefined).map(async (_, index) => {
             const weeksAgo = index + 1;
             return getCalories(ctx, weeksAgo)
           }))).sort((a,b) => {
@@ -90,11 +122,18 @@ const getCalories = async (ctx, weeksAgo) => {
           const csv = new ObjectsToCsv(calories)
           await csv.toDisk(`./results/calories/${moment().format(("YYYY-MM-DD"))}.csv`);
           ctx.body = await csv.toString()
+      })
 
-      } catch (e) {
-        console.log(e.message)
-        console.log(e && e.response && e.response.data && e.response.data.errors)
-      }
+  router.get('/macros', async ctx => {
+    const macros = (await Promise.all(Array(2).fill(undefined).map(async (_, index) => {
+      const weeksAgo = index + 1;
+      return getMacros(ctx, weeksAgo)
+    }))).sort((a,b) => {
+      return a.weekEnd == b.weekEnd ? 0 : a.weekEnd > b.weekEnd ? 1 : -1
+    })
+    const csv = new ObjectsToCsv(macros)
+    await csv.toDisk(`./results/macros/${moment().format(("YYYY-MM-DD"))}.csv`);
+    ctx.body = await csv.toString()
   })
 
   router.get('/runs', async ctx => {
@@ -116,7 +155,18 @@ const getCalories = async (ctx, weeksAgo) => {
       }
   });
 
-  app
+  app.use(async (ctx, next) => {
+    try {
+      await next();
+    } catch (err) {
+      ctx.status = err.status || 500;
+      ctx.body = err.message;
+      ctx.app.emit('error', err, ctx);
+    }
+  })
+  .on('error', (err, ctx) => {
+    console.log(err)
+  })
   .use(async (ctx, next) => {
     const accessToken = await ctx.cookies.get('accessToken');
     const refreshToken = await ctx.cookies.get('refreshToken');
@@ -137,7 +187,8 @@ const getCalories = async (ctx, weeksAgo) => {
       }
       ctx.cookies.set('accessToken', tokens.access_token, {maxAge: tokens.expires_in})
       ctx.cookies.set('refreshToken', tokens.refresh_token)
-      ctx.redirect('/authn')
+      const redirectPath =  ctx.cookies.get('path') || '/auth'
+      ctx.redirect(redirectPath)
     }
     return next()
   })
