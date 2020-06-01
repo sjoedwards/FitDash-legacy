@@ -7,8 +7,9 @@ const btoa = require('btoa')
 const atob = require('atob')
 const moment = require('moment')
 const ObjectsToCsv = require('objects-to-csv')
+const nodeCache = require('node-cache')
 require('dotenv').config({ path: '../.env' })
-
+const cache = new nodeCache({ stdTTL: 3600, checkperiod: 300 })
 const getTokens = async (ctx, accessCode) => {
   if (!accessCode) {
     console.log('No access code, redirecting to FitBit authZ')
@@ -85,24 +86,25 @@ const getMacros = async (ctx, weeksAgo) => {
     return {
       date,
       calories,
-      protien: ((4 * protein) / calories),
-      carbs: ((4 * carbs) / calories),
-      fat: ((9 * fat) / calories)
+      protein,
+      carbs,
+      fat
     }
   })))
   const weekMacros = macros.reduce((acc, entry) => {
     return {
+      calories: acc.calories + parseFloat(entry.calories),
       fat: acc.fat + parseFloat(entry.fat),
-      protien: acc.protien + parseFloat(entry.protien),
+      protein: acc.protein + parseFloat(entry.protein),
       carbs: acc.carbs + parseFloat(entry.carbs)
     }
-  }, {fat: 0, protien: 0, carbs: 0})
+  }, {fat: 0, protein: 0, carbs: 0, calories: 0})
 
   return {
     weekEnd,
-    fat: (weekMacros.fat / macros.length).toFixed(2),
-    carbs: (weekMacros.carbs / macros.length).toFixed(2),
-    protien: (weekMacros.protien / macros.length).toFixed(2),
+    fat: ((weekMacros.fat * 9.579) / weekMacros.calories).toFixed(2),
+    carbs: ((weekMacros.carbs * 4.256) / weekMacros.calories).toFixed(2),
+    protein: ((weekMacros.protein * 4.283) / weekMacros.calories).toFixed(2),
   }
 }
 
@@ -113,24 +115,42 @@ const getMacros = async (ctx, weeksAgo) => {
   })
 
   router.get('/calories', async ctx => {
-          const calories = (await Promise.all(Array(6).fill(undefined).map(async (_, index) => {
-            const weeksAgo = index + 1;
-            return getCalories(ctx, weeksAgo)
-          }))).sort((a,b) => {
-            return a.weekEnd == b.weekEnd ? 0 : a.weekEnd > b.weekEnd ? 1 : -1
-          })
+          const cachedCalories = cache.get('calories')
+          let calories;
+          if (cachedCalories) {
+            console.log('Retrieving calories from cache')
+            calories = cachedCalories
+          } else {
+            console.log("Getting calories from fitbit")
+            calories = (await Promise.all(Array(6).fill(undefined).map(async (_, index) => {
+              const weeksAgo = index + 1;
+              return getCalories(ctx, weeksAgo)
+            }))).sort((a,b) => {
+              return a.weekEnd == b.weekEnd ? 0 : a.weekEnd > b.weekEnd ? 1 : -1
+            })
+            cache.set("calories", calories)
+          }
           const csv = new ObjectsToCsv(calories)
           await csv.toDisk(`./results/calories/${moment().format(("YYYY-MM-DD"))}.csv`);
           ctx.body = await csv.toString()
       })
 
   router.get('/macros', async ctx => {
-    const macros = (await Promise.all(Array(2).fill(undefined).map(async (_, index) => {
-      const weeksAgo = index + 1;
-      return getMacros(ctx, weeksAgo)
-    }))).sort((a,b) => {
-      return a.weekEnd == b.weekEnd ? 0 : a.weekEnd > b.weekEnd ? 1 : -1
-    })
+    const cachedMacros = cache.get('macros')
+    let macros;
+    if (cachedMacros) {
+      console.log('Retrieving macros from cache')
+      macros = cachedMacros
+    } else {
+      console.log('Retreiving macros from fitbit API')
+      macros = (await Promise.all(Array(2).fill(undefined).map(async (_, index) => {
+        const weeksAgo = index + 1;
+        return getMacros(ctx, weeksAgo)
+      }))).sort((a,b) => {
+        return a.weekEnd == b.weekEnd ? 0 : a.weekEnd > b.weekEnd ? 1 : -1
+      })
+      cache.set("macros", macros)
+    }
     const csv = new ObjectsToCsv(macros)
     await csv.toDisk(`./results/macros/${moment().format(("YYYY-MM-DD"))}.csv`);
     ctx.body = await csv.toString()
