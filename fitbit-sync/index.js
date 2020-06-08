@@ -13,7 +13,7 @@ const cache = new nodeCache({ stdTTL: 3600, checkperiod: 300 })
 const getTokens = async (ctx, accessCode) => {
   if (!accessCode) {
     console.log('No access code, redirecting to FitBit authZ')
-    return ctx.redirect(`https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=activity%20nutrition&test=test`)
+    return ctx.redirect(`https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=activity%20nutrition%20weight`)
   }
   const clientSecret = process.env.CLIENT_SECRET
   const clientId = process.env.CLIENT_ID
@@ -73,6 +73,18 @@ const getCalories = async (ctx, weeksAgo) => {
   return {weekEnd, calories}
 }
 
+const getWeight = async (ctx, weeksAgo) => {
+
+  const headers = {
+    Authorization: `Bearer ${ctx.state.token}`
+  }
+  const weekEnd = moment().subtract(weeksAgo, 'weeks').endOf('isoWeek').format("YYYY-MM-DD");
+  const weightLog = (await axios({url: `https://api.fitbit.com/1/user/-/body/log/weight/date/${weekEnd}/1w.json`, method: 'get', headers})).data.weight
+  const weight = weightLog.length && (weightLog.reduce((sum, {weight}) => sum + parseFloat(weight), 0) / weightLog.length).toFixed(1)
+  return {weekEnd, weight}
+}
+
+
 const getMacros = async (ctx, weeksAgo) => {
   const headers = {
     Authorization: `Bearer ${ctx.state.token}`
@@ -112,6 +124,27 @@ const getMacros = async (ctx, weeksAgo) => {
 
   router.get('/authn', async ctx => {
     ctx.body = 'Completed authentication, attempt request again'
+  })
+
+  router.get('/weight', async ctx => {
+    const cachedWeight = cache.get('weight')
+    let weight;
+    if (cachedWeight) {
+      console.log('Retrieving weight from cache')
+      weight = cachedWeight
+    } else {
+      console.log("Getting weight from fitbit")
+      weight = (await Promise.all(Array(6).fill(undefined).map(async (_, index) => {
+        const weeksAgo = index + 1;
+        return getWeight(ctx, weeksAgo)
+      }))).filter(({weight}) => weight != 0).sort((a,b) => {
+        return a.weekEnd == b.weekEnd ? 0 : a.weekEnd > b.weekEnd ? 1 : -1
+      })
+      cache.set("weight", weight)
+    }
+    const csv = new ObjectsToCsv(weight)
+    await csv.toDisk(`./results/weight/${moment().format(("YYYY-MM-DD"))}.csv`);
+    ctx.body = await csv.toString()
   })
 
   router.get('/calories', async ctx => {
