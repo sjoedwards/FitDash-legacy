@@ -195,7 +195,7 @@ const getMacros = async (ctx, weeksAgo) => {
         const formattedActivities = activities.data.activities.filter(activity => activity.activityName == 'Run').map(({distance, pace, originalStartTime, activeDuration}) => {
           return {
             date: moment(originalStartTime).format(("YYYY-MM-DD")),
-            distance: distance.toFixed(2),
+            distance: distance && distance.toFixed(2),
             duration: moment.utc(moment.duration((activeDuration), "milliseconds").asMilliseconds()).format("HH:mm:ss"),
             pace: moment.utc(moment.duration(pace, "seconds").asMilliseconds()).format("HH:mm:ss")
           }
