@@ -11,6 +11,7 @@
 - [X] Get activities
 - [X] Extract runs from time period
 - [X] Extract to CSV
+- [ ] Abstract file writing to function that makes directory
 - [ ] Create NPM package
 - [ ] Integrate into front end?
 
