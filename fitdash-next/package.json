@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "btoa": "^1.2.1",
     "cookie": "^0.4.1",
     "next": "9.4.4",
