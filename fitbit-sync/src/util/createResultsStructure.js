@@ -4,6 +4,7 @@ const createResultsStructure = () =>
   [
     "results",
     "results/weight",
+    "results/weight-diffs",
     "results/runs",
     "results/macros",
     "results/calories",
