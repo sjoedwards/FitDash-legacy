@@ -103,7 +103,9 @@ weightRouter.get("/weight/diff", async (ctx) => {
     cache.set("weight-diffs", weightDiffs);
   }
   const csv = new ObjectsToCsv(weightDiffs);
-  await csv.toDisk(`./results/weight/${moment().format("YYYY-MM-DD")}.csv`);
+  await csv.toDisk(
+    `./results/weight-diffs/${moment().format("YYYY-MM-DD")}.csv`
+  );
   ctx.body = await csv.toString();
 });
 
