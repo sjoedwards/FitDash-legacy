@@ -2,3 +2,5 @@ node_modules
 dist
 .env
 mongodb_data
+code.txt
+results

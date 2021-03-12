@@ -1,5 +1,5 @@
 FROM node:alpine
 WORKDIR /app
-COPY package.json package-lock.json /app/
-RUN npm install
-CMD npm run server
+COPY package.json yarn.lock /app/
+RUN yarn
+CMD yarn run server

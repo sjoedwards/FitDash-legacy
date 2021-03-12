@@ -1,46 +1,35 @@
 const webpack = require('webpack');
-const webpackConfig = require('../config/webpack.base.config');
-const webpackConfigObject = webpackConfig({PLATFORM: 'local', VERSION: 'stage'});
-const middleware = require('webpack-dev-middleware');
-const compiler = webpack(webpackConfig({PLATFORM: 'local', VERSION: 'stage'}));
-const express = require('express');
+const configFile = require('../config/webpack.base.config');
+const config = configFile({PLATFORM: 'local', VERSION: 'stage'})
+const Koa = require('koa');
+const koaWebpack = require('koa-webpack');
+const Router = require('@koa/router');
 const path = require('path');
-const http = require('http');
 
-const app = express();
-
-
-app.use(middleware(compiler, {
-    noInfo: true,
-    publicPath: webpackConfigObject.output.publicPath
-}));
-
-app.use('*', function (req, res, next) {
-    var filename = path.join(compiler.outputPath,'index.html');
-    compiler.outputFileSystem.readFile(filename, function(err, result){
-        if (err) {
-            return next(err);
-        }
-        res.set('content-type','text/html');
-        res.send(result);
-        res.end();
-    });
-});
-
-// Point static path to dist
-app.use('/', express.static(path.join(__dirname, '..', 'dist')));
-app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
-
-
-/** Get port from environment and store in Express. */
-const port = process.env.PORT || '3001';
-console.log('port: ', port);
-app.set('port', port);
-
-/** Create HTTP server. */
-const server = http.createServer(app);
-/** Listen on provided port, on all network interfaces. */
-server.listen(port, () => console.log(`Server Running on port ${port}`));
+(async () => {
+  const app = new Koa();
+  const router = new Router();
+  const options = {
+    config,
+    devMiddleware: {
+      // publicPath: config.output.publicPath,
+      watchOptions: {
+        poll: 100,
+      },
+    },
+    hotClient: false,
+  }
+  const middleware = await koaWebpack(options)
+  app.use(middleware)
+  router.get('*', async (ctx) => {
+    const filename = path.resolve(config.output.path, 'index.html')
+    ctx.response.type = 'html'
+    ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename)
+  });
+  app
+    .use(router.routes())
+    .use(router.allowedMethods());
+  app.listen(3001);
+})()
 
 
-module.exports = server;
