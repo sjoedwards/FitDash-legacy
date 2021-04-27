@@ -18,6 +18,7 @@ const getCalories = async (ctx, weeksAgo) => {
     .subtract(weeksAgo, "weeks")
     .endOf("isoWeek")
     .format("YYYY-MM-DD");
+
   const caloriesLog = (
     await axios({
       url: `https://api.fitbit.com/1/user/-/foods/log/caloriesIn/date/${weekStart}/${weekEnd}.json`,
@@ -25,11 +26,32 @@ const getCalories = async (ctx, weeksAgo) => {
       headers,
     })
   ).data["foods-log-caloriesIn"].filter(({ value }) => value !== 0);
+
   const calories = (
     caloriesLog.reduce((sum, { value }) => sum + parseInt(value, 10), 0) /
     caloriesLog.length
   ).toFixed(0);
-  return { weekEnd, calories };
+
+  const activityCaloriesLog = await axios({
+    url: `https://api.fitbit.com/1/user/-/activities/calories/date/${weekStart}/${weekEnd}.json`,
+    method: "get",
+    headers,
+  });
+
+  const activityCaloriesLogData =
+    activityCaloriesLog &&
+    activityCaloriesLog.data["activities-calories"].filter(
+      ({ value }) => value !== 0
+    );
+
+  const activityCalories = (
+    activityCaloriesLogData.reduce(
+      (sum, { value }) => sum + parseInt(value, 10),
+      0
+    ) / activityCaloriesLogData.length
+  ).toFixed(0);
+
+  return { weekEnd, calories, activityCalories };
 };
 
 caloriesRouter.get("/calories", async (ctx) => {
