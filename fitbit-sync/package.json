@@ -20,7 +20,7 @@
     "dev": "nodemon ./src/index.js",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "yarn run lint --fix",
-    "deploy": "cd .. && git subtree push --prefix path/to/subdirectory heroku master"
+    "deploy": "cd .. && git subtree push --prefix fitbit-sync heroku master"
   },
   "jest": {
     "testEnvironment": "node"
