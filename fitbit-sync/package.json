@@ -16,9 +16,11 @@
     "prettier": "^2.2.1"
   },
   "scripts": {
-    "start": "nodemon ./src/index.js",
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "yarn run lint --fix"
+    "lint:fix": "yarn run lint --fix",
+    "deploy": "cd .. && git subtree push --prefix path/to/subdirectory heroku master"
   },
   "jest": {
     "testEnvironment": "node"
