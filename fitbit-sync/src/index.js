@@ -6,9 +6,11 @@ const start = () => {
   createResultsStructure();
 };
 
-app.listen(3000, () => {
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
   /* eslint-disable-next-line no-console */
-  console.log("Listening on port 3000");
+  console.log(`Listening on port ${port}`);
 });
 
 start();
