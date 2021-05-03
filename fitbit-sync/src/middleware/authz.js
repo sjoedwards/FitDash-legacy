@@ -2,11 +2,12 @@ const btoa = require("btoa");
 const axios = require("axios");
 
 const getTokens = async (ctx, accessCode) => {
+  const redirectUri = encodeURI(process.env.REDIRECT_URI || 'http://localhost:3000')
   if (!accessCode) {
     /* eslint-disable-next-line no-console */
     console.log("No access code, redirecting to FitBit authZ");
     return ctx.redirect(
-      `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=activity%20nutrition%20weight`
+      `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&scope=activity%20nutrition%20weight&redirect_uri=${redirectUri}`
     );
   }
   const clientSecret = process.env.CLIENT_SECRET;
@@ -18,7 +19,7 @@ const getTokens = async (ctx, accessCode) => {
   };
   try {
     const response = await axios({
-      url: `https://api.fitbit.com/oauth2/token?code=${accessCode}&grant_type=authorization_code&client_id=${clientId}`,
+      url: `https://api.fitbit.com/oauth2/token?code=${accessCode}&grant_type=authorization_code&client_id=${clientId}&redirect_uri=${redirectUri}`,
       method: "post",
       headers,
     });
