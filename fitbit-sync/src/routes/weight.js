@@ -72,41 +72,5 @@ weightRouter.get("/weight", async (ctx) => {
   ctx.body = await csv.toString();
 });
 
-// TODO Move client side - no need for this to be an API
-weightRouter.get("/weight/diff", async (ctx) => {
-  // TODO Cache should be a key which incorperates UID for each user
-  const cachedWeightDiffs = cache.get("weight-diffs");
-  let weightDiffs;
-  if (cachedWeightDiffs) {
-    /* eslint-disable-next-line no-console */
-    console.log("Retrieving weight diff from cache");
-    weightDiffs = cachedWeightDiffs;
-  } else {
-    /* eslint-disable-next-line no-console */
-    console.log("Getting weight from fitbit");
-    const weights = await aggregateWeights(ctx);
-    /* eslint-disable-next-line no-console */
-    console.log("Calculating weight diff");
-    weightDiffs = weights
-      .map((weightEntry, index) => {
-        if (index > 0) {
-          return {
-            ...weightEntry,
-            weight: (weightEntry.weight - weights[index - 1].weight).toFixed(1),
-          };
-        }
-        return undefined;
-      })
-      .filter((weightEntry) => weightEntry);
-    /* eslint-disable-next-line no-console */
-    console.log(weightDiffs);
-    cache.set("weight-diffs", weightDiffs);
-  }
-  const csv = new ObjectsToCsv(weightDiffs);
-  await csv.toDisk(
-    `./results/weight-diffs/${moment().format("YYYY-MM-DD")}.csv`
-  );
-  ctx.body = await csv.toString();
-});
 
 module.exports = { weightRouter };
