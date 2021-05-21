@@ -21,7 +21,7 @@ const path = require('path');
   }
   const middleware = await koaWebpack(options)
   app.use(middleware)
-  router.get('*', async (ctx) => {
+  router.get('*', async (ctx: Context) => {
     const filename = path.resolve(config.output.path, 'index.html')
     ctx.response.type = 'html'
     ctx.response.body = middleware.devMiddleware.fileSystem.createReadStream(filename)

@@ -54,7 +54,7 @@ const getCalories = async (ctx, weeksAgo) => {
   return { weekEnd, calories, activityCalories };
 };
 
-caloriesRouter.get("/calories", async (ctx) => {
+caloriesRouter.get("/calories", async (ctx: Context) => {
   const cachedCalories = cache.get("calories");
   let calories;
   if (cachedCalories) {

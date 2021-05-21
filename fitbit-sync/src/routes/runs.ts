@@ -5,7 +5,7 @@ const ObjectsToCsv = require("objects-to-csv");
 
 const runRouter = new Router();
 
-const getActivities = async (ctx) => {
+const getActivities = async (ctx: Context) => {
   const headers = {
     Authorization: `Bearer ${ctx.state.token}`,
   };
@@ -18,8 +18,8 @@ const getActivities = async (ctx) => {
   });
 };
 
-runRouter.get("/runs", async (ctx) => {
-  const activities = await getActivities(ctx);
+runRouter.get("/runs", async (ctx: Context) => {
+  const activities = await getActivities(ctx: Context);
   if (activities && activities.data && activities.data.activities) {
     const formattedActivities = activities.data.activities
       .filter((activity) => activity.activityName === "Run")

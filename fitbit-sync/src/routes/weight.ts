@@ -8,7 +8,7 @@ const weightRouter = new Router();
 
 const getWeight = async (ctx, weeksAgo) => {
   const headers = {
-    Authorization: `Bearer ${ctx.state.token}`,
+  Authorization: `Bearer ${ctx.state.token}`,
   };
   const weekEnd = moment()
     .subtract(weeksAgo, "weeks")
@@ -32,7 +32,7 @@ const getWeight = async (ctx, weeksAgo) => {
   return { weekEnd, weight };
 };
 
-const aggregateWeights = async (ctx) => {
+const aggregateWeights = async (ctx: Context) => {
   return (
     await Promise.all(
       Array(6)
@@ -52,7 +52,7 @@ const aggregateWeights = async (ctx) => {
     });
 };
 
-weightRouter.get("/weight", async (ctx) => {
+weightRouter.get("/weight", async (ctx: Context) => {
   // TODO Cache should be a key which incorperates UID for each user
   const cachedWeight = cache.get("weight");
   let weight;
@@ -63,7 +63,7 @@ weightRouter.get("/weight", async (ctx) => {
   } else {
     /* eslint-disable-next-line no-console */
     console.log("Getting weight from fitbit");
-    weight = await aggregateWeights(ctx);
+    weight = await aggregateWeights(ctx: Context);
 
     cache.set("weight", weight);
   }
@@ -71,6 +71,5 @@ weightRouter.get("/weight", async (ctx) => {
   await csv.toDisk(`./results/weight/${moment().format("YYYY-MM-DD")}.csv`);
   ctx.body = await csv.toString();
 });
-
 
 module.exports = { weightRouter };

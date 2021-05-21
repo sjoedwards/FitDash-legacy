@@ -1,8 +1,8 @@
-const btoa = require("btoa");
-const axios = require("axios");
+import btoa from "btoa";
+import axios from "axios";
+import { Context, Next } from "koa";
 
-const getTokens = async (ctx, accessCode) => {
-  const redirectUri = encodeURI(process.env.REDIRECT_URI || 'http://localhost:3000')
+const getTokens = async (ctx: Context, accessCode: string) => {
   if (!accessCode) {
     /* eslint-disable-next-line no-console */
     console.log("No access code, redirecting to FitBit authZ");
@@ -35,9 +35,9 @@ const getTokens = async (ctx, accessCode) => {
   }
 };
 
-const authzMiddlware = async (ctx, next) => {
+const authzMiddleware = async (ctx: Context, next: Next) => {
   if (!ctx.state.token) {
-    const accessCode = ctx.request.query.code;
+    const accessCode = ctx.request.query.code as string;
     const tokens = await getTokens(ctx, accessCode);
     if (ctx.status === 302) {
       return true;
@@ -52,4 +52,4 @@ const authzMiddlware = async (ctx, next) => {
   return next();
 };
 
-module.exports = authzMiddlware;
+export { authzMiddleware };

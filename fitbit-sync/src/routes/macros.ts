@@ -60,7 +60,7 @@ const getMacros = async (ctx, weeksAgo) => {
   };
 };
 
-macrosRouter.get("/macros", async (ctx) => {
+macrosRouter.get("/macros", async (ctx: Context) => {
   const cachedMacros = cache.get("macros");
   let macros;
   if (cachedMacros) {
