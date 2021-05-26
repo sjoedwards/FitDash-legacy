@@ -1,12 +1,17 @@
-const axios = require("axios");
-const moment = require("moment");
-const Router = require("@koa/router");
-const ObjectsToCsv = require("objects-to-csv");
-const cache = require("../cache");
+import { FitbitMacrosData } from "./../../types/index";
+import { Context } from "koa";
+import axios from "axios";
+import moment from "moment";
+import Router from "@koa/router";
+import ObjectsToCsv from "objects-to-csv";
+import { cache } from "../cache";
 
 const macrosRouter = new Router();
 
-const getMacros = async (ctx, weeksAgo) => {
+const getMacros = async (
+  ctx: Context,
+  weeksAgo: number
+): Promise<FitbitMacrosData> => {
   const headers = {
     Authorization: `Bearer ${ctx.state.token}`,
   };
@@ -60,8 +65,8 @@ const getMacros = async (ctx, weeksAgo) => {
   };
 };
 
-macrosRouter.get("/macros", async (ctx) => {
-  const cachedMacros = cache.get("macros");
+macrosRouter.get("/macros", async (ctx: Context) => {
+  const cachedMacros: Array<FitbitMacrosData> = cache.get("macros");
   let macros;
   if (cachedMacros) {
     /* eslint-disable-next-line no-console */
@@ -92,4 +97,4 @@ macrosRouter.get("/macros", async (ctx) => {
   ctx.body = await csv.toString();
 });
 
-module.exports = { macrosRouter };
+export { macrosRouter };
