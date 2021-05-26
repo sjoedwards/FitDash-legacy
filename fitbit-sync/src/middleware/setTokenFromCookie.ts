@@ -3,8 +3,8 @@ import btoa from "btoa";
 import axios from "axios";
 
 const refreshAccessToken = async (refreshToken: string) => {
-  const clientSecret = process.env.CLIENT_SECRET;
-  const clientId = process.env.CLIENT_ID;
+  const clientSecret = process.env.FITBIT_CLIENT_SECRET;
+  const clientId = process.env.FITBIT_CLIENT_ID;
   const authString = btoa(`${clientId}:${clientSecret}`);
   const headers = {
     Authorization: `Basic ${authString}`,

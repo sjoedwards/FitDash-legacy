@@ -30,7 +30,8 @@ const getWeight = async (
     weightLog.length &&
     (
       weightLog.reduce(
-        (sum: number, { weight }) => sum + parseFloat(weight),
+        (sum: number, { weight: weightAgg }: { weight: string }) =>
+          sum + parseFloat(weightAgg),
         0
       ) / weightLog.length
     ).toFixed(1);

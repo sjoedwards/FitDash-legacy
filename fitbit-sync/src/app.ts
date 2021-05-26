@@ -10,7 +10,7 @@ import { weightRouter } from "./routes/weight";
 import { runRouter } from "./routes/runs";
 import { macrosRouter } from "./routes/macros";
 import { caloriesRouter } from "./routes/calories";
-config({ path: "../.env" });
+config({ path: ".env" });
 
 app
   .use(errorMiddleware)
