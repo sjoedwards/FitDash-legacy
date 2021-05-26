@@ -1,6 +1,6 @@
-const fs = require("fs");
+import fs from "fs";
 
-const createResultsStructure = () =>
+const createResultsStructure = (): void =>
   [
     "results",
     "results/weight",
@@ -14,4 +14,4 @@ const createResultsStructure = () =>
     }
   });
 
-module.exports = createResultsStructure;
+export { createResultsStructure };

@@ -1,6 +1,5 @@
-require("dotenv").config({ path: ".env" });
-const app = require("./app");
-const createResultsStructure = require("./util/createResultsStructure");
+import { app } from "./app";
+import { createResultsStructure } from "./util/createResultsStructure";
 
 const start = () => {
   createResultsStructure();

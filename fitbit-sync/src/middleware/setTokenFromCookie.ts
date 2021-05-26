@@ -1,9 +1,10 @@
-const btoa = require("btoa");
-const axios = require("axios");
+import { Context, Next } from "koa";
+import btoa from "btoa";
+import axios from "axios";
 
-const refreshAccessToken = async (refreshToken) => {
-  const clientSecret = process.env.CLIENT_SECRET;
-  const clientId = process.env.CLIENT_ID;
+const refreshAccessToken = async (refreshToken: string) => {
+  const clientSecret = process.env.FITBIT_CLIENT_SECRET;
+  const clientId = process.env.FITBIT_CLIENT_ID;
   const authString = btoa(`${clientId}:${clientSecret}`);
   const headers = {
     Authorization: `Basic ${authString}`,
@@ -27,7 +28,7 @@ const refreshAccessToken = async (refreshToken) => {
   }
 };
 
-const authMiddleware = async (ctx, next) => {
+const setTokenFromCookieMiddleware = async (ctx: Context, next: Next) => {
   const accessToken = await ctx.cookies.get("accessToken");
   const refreshToken = await ctx.cookies.get("refreshToken");
   if (accessToken) {
@@ -55,4 +56,4 @@ const authMiddleware = async (ctx, next) => {
   return next();
 };
 
-module.exports = authMiddleware;
+export { setTokenFromCookieMiddleware };
