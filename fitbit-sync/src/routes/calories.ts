@@ -1,12 +1,17 @@
-const axios = require("axios");
-const moment = require("moment");
-const Router = require("@koa/router");
-const ObjectsToCsv = require("objects-to-csv");
-const cache = require("../cache");
+import { FitbitData, FitbitCaloriesData } from "./../../types";
+import { Context } from "koa";
+import axios from "axios";
+import moment from "moment";
+import Router from "@koa/router";
+import ObjectsToCsv from "objects-to-csv";
+import { cache } from "../cache";
 
 const caloriesRouter = new Router();
 
-const getCalories = async (ctx, weeksAgo) => {
+const getCalories = async (
+  ctx: Context,
+  weeksAgo: number
+): Promise<FitbitCaloriesData> => {
   const headers = {
     Authorization: `Bearer ${ctx.state.token}`,
   };
@@ -19,17 +24,19 @@ const getCalories = async (ctx, weeksAgo) => {
     .endOf("isoWeek")
     .format("YYYY-MM-DD");
 
-  const caloriesLog = (
+  const caloriesLog: Array<FitbitData> = (
     await axios({
       url: `https://api.fitbit.com/1/user/-/foods/log/caloriesIn/date/${weekStart}/${weekEnd}.json`,
       method: "get",
       headers,
     })
-  ).data["foods-log-caloriesIn"].filter(({ value }) => value !== 0);
+  ).data["foods-log-caloriesIn"].filter(({ value }: FitbitData) => value !== 0);
 
   const calories = (
-    caloriesLog.reduce((sum, { value }) => sum + parseInt(value, 10), 0) /
-    caloriesLog.length
+    caloriesLog.reduce(
+      (sum: number, { value }) => sum + parseInt(`${value}`, 10),
+      0
+    ) / caloriesLog.length
   ).toFixed(0);
 
   const activityCaloriesLog = await axios({
@@ -41,12 +48,12 @@ const getCalories = async (ctx, weeksAgo) => {
   const activityCaloriesLogData =
     activityCaloriesLog &&
     activityCaloriesLog.data["activities-calories"].filter(
-      ({ value }) => value !== 0
+      ({ value }: FitbitData) => value !== 0
     );
 
   const activityCalories = (
     activityCaloriesLogData.reduce(
-      (sum, { value }) => sum + parseInt(value, 10),
+      (sum: number, { value }: FitbitData) => sum + parseInt(`${value}`, 10),
       0
     ) / activityCaloriesLogData.length
   ).toFixed(0);
@@ -55,7 +62,7 @@ const getCalories = async (ctx, weeksAgo) => {
 };
 
 caloriesRouter.get("/calories", async (ctx: Context) => {
-  const cachedCalories = cache.get("calories");
+  const cachedCalories: Array<FitbitCaloriesData> = cache.get("calories");
   let calories;
   if (cachedCalories) {
     /* eslint-disable-next-line no-console */
@@ -86,4 +93,4 @@ caloriesRouter.get("/calories", async (ctx: Context) => {
   ctx.body = await csv.toString();
 });
 
-module.exports = { caloriesRouter };
+export { caloriesRouter };

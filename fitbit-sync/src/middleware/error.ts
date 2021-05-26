@@ -1,3 +1,5 @@
+import { Next, Context } from "koa";
+
 const errorMiddleware = async (ctx: Context, next: Next) => {
   try {
     await next();
@@ -8,4 +10,4 @@ const errorMiddleware = async (ctx: Context, next: Next) => {
   }
 };
 
-module.exports = errorMiddleware;
+export { errorMiddleware };

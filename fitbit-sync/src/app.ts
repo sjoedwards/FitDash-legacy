@@ -5,7 +5,7 @@ const app = new Koa();
 
 import { authzMiddleware } from "./middleware/authz";
 import { setTokenFromCookieMiddleware } from "./middleware/setTokenFromCookie";
-import errorMiddleware from "./middleware/error";
+import { errorMiddleware } from "./middleware/error";
 import { weightRouter } from "./routes/weight";
 import { runRouter } from "./routes/runs";
 import { macrosRouter } from "./routes/macros";
@@ -15,7 +15,7 @@ config({ path: "../.env" });
 app
   .use(errorMiddleware)
   /* eslint-disable-next-line no-unused-vars */
-  .on("error", (err, ctx) => {
+  .on("error", (err): void => {
     /* eslint-disable-next-line no-console */
     console.log(err);
   })

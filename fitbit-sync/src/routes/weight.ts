@@ -1,20 +1,25 @@
-const axios = require("axios");
-const moment = require("moment");
-const Router = require("@koa/router");
-const ObjectsToCsv = require("objects-to-csv");
-const cache = require("../cache");
+import { FitbitWeightData } from "./../../types/index";
+import { Context } from "koa";
+import axios from "axios";
+import moment from "moment";
+import Router from "@koa/router";
+import ObjectsToCsv from "objects-to-csv";
+import { cache } from "../cache";
 
 const weightRouter = new Router();
 
-const getWeight = async (ctx, weeksAgo) => {
+const getWeight = async (
+  ctx: Context,
+  weeksAgo: number
+): Promise<FitbitWeightData> => {
   const headers = {
-  Authorization: `Bearer ${ctx.state.token}`,
+    Authorization: `Bearer ${ctx.state.token}`,
   };
   const weekEnd = moment()
     .subtract(weeksAgo, "weeks")
     .endOf("isoWeek")
     .format("YYYY-MM-DD");
-  const weightLog = (
+  const weightLog: Array<{ weight: string }> = (
     await axios({
       url: `https://api.fitbit.com/1/user/-/body/log/weight/date/${weekEnd}/1w.json`,
       method: "get",
@@ -25,7 +30,7 @@ const getWeight = async (ctx, weeksAgo) => {
     weightLog.length &&
     (
       weightLog.reduce(
-        (sum, { weight: weightAgg }) => sum + parseFloat(weightAgg),
+        (sum: number, { weight }) => sum + parseFloat(weight),
         0
       ) / weightLog.length
     ).toFixed(1);
@@ -43,7 +48,7 @@ const aggregateWeights = async (ctx: Context) => {
         })
     )
   )
-    .filter(({ weight: weightFromFitbit }) => weightFromFitbit !== 0)
+    .filter(({ weight }) => parseFloat(weight) !== 0)
     .sort((a, b) => {
       if (a.weekEnd === b.weekEnd) {
         return 0;
@@ -54,7 +59,7 @@ const aggregateWeights = async (ctx: Context) => {
 
 weightRouter.get("/weight", async (ctx: Context) => {
   // TODO Cache should be a key which incorperates UID for each user
-  const cachedWeight = cache.get("weight");
+  const cachedWeight: Array<FitbitWeightData> = cache.get("weight");
   let weight;
   if (cachedWeight) {
     /* eslint-disable-next-line no-console */
@@ -63,7 +68,7 @@ weightRouter.get("/weight", async (ctx: Context) => {
   } else {
     /* eslint-disable-next-line no-console */
     console.log("Getting weight from fitbit");
-    weight = await aggregateWeights(ctx: Context);
+    weight = await aggregateWeights(ctx);
 
     cache.set("weight", weight);
   }
@@ -72,4 +77,4 @@ weightRouter.get("/weight", async (ctx: Context) => {
   ctx.body = await csv.toString();
 });
 
-module.exports = { weightRouter };
+export { weightRouter };

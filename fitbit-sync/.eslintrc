@@ -7,11 +7,11 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended",
     "plugin:promise/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
   ],
   "rules": {
     "@typescript-eslint/ban-ts-comment": "off"
