@@ -1,5 +1,6 @@
 export interface FitbitData {
   value: number;
+  dateTime: string;
 }
 
 export interface FitbitCaloriesData {
