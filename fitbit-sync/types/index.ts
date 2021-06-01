@@ -1,5 +1,9 @@
+export interface APIFitbitCaloriesData {
+  calories: Array<FitbitData>;
+  activityCalories: Array<FitbitData>;
+}
 export interface FitbitData {
-  value: number;
+  value: string;
   dateTime: string;
 }
 
