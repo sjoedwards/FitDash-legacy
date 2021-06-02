@@ -3,14 +3,13 @@ import MockAdapter from "axios-mock-adapter";
 import request from "supertest";
 import { app } from "../../app";
 import { caloriesApiData } from "../api-data/calories";
-import { dailyCaloriesExpectedResponse } from "../expected-responses/calories/daily";
-import { weeklyCaloriesExpectedResponse } from "../expected-responses/calories/weekly";
+import { deficitExpectedResponse } from "../expected-responses/deficit";
 
 let realDateNow: () => number;
 beforeEach(() => {
   realDateNow = Date.now.bind(global.Date);
-  // stub date to 2021-05-29, 12:00:00
-  global.Date.now = jest.fn().mockReturnValue(1622588225000);
+  // stub date to Wednesday, 2 June 2021 12:00:00
+  global.Date.now = jest.fn().mockReturnValue(1622635200000);
 });
 
 afterEach(() => {
@@ -43,13 +42,14 @@ beforeEach(() => {
   mock.onGet(fitbitApiActivities).reply(500);
 });
 
-describe("Calories Route", () => {
+describe("Deficit Route", () => {
   it("should return the correct calorie information for a weekly resolution", async () => {
-    const weeklyResponse = await request(app.callback())
+    const response = await request(app.callback())
       .get("/deficit")
       .set("Cookie", "accessToken=123")
       .send()
       .expect(200);
-    expect(weeklyResponse.body).toEqual(weeklyCaloriesExpectedResponse);
+    console.log(JSON.stringify(response.body));
+    expect(response.body).toEqual(deficitExpectedResponse);
   });
 });
