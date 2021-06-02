@@ -13,11 +13,13 @@ import { cache } from "../cache";
 
 const caloriesRouter = new Router();
 
-const getCalories = async (ctx: Context): Promise<APIFitbitCaloriesData> => {
+export const getCalories = async (
+  ctx: Context
+): Promise<Array<APIFitbitCaloriesData>> => {
   const headers = {
     Authorization: `Bearer ${ctx.state.token}`,
   };
-  const calories: Array<FitbitData> = (
+  const caloriesResponse: Array<FitbitData> = (
     await axios({
       url: `https://api.fitbit.com/1/user/-/foods/log/caloriesIn/date/today/3m.json`,
       method: "get",
@@ -27,7 +29,7 @@ const getCalories = async (ctx: Context): Promise<APIFitbitCaloriesData> => {
     ({ value }: FitbitData) => parseInt(value) !== 0
   );
 
-  const activityCalories = (
+  const activityCaloriesResponse: Array<FitbitData> = (
     await axios({
       url: `https://api.fitbit.com/1/user/-/activities/calories/date/today/3m.json`,
       method: "get",
@@ -37,44 +39,74 @@ const getCalories = async (ctx: Context): Promise<APIFitbitCaloriesData> => {
     ({ value }: FitbitData) => parseInt(value) !== 0
   );
 
-  return { calories, activityCalories };
+  const calories = caloriesResponse.map(({ dateTime, value: calories }) => {
+    // Find the activityCaloriesResponse entry for the dateTime
+    const { value: activityCalories } = activityCaloriesResponse.find(
+      (entry) => entry.dateTime === dateTime
+    );
+    return {
+      dateTime,
+      calories,
+      activityCalories: activityCalories,
+      deficit: (parseInt(calories) - parseInt(activityCalories)).toString(),
+    };
+  });
+
+  return calories;
 };
 
 const getWeeklyCalories = async (
-  ctx: Context,
-  apiCalories: APIFitbitCaloriesData
+  apiCalories: Array<APIFitbitCaloriesData>
 ): Promise<Array<FitbitCaloriesData>> => {
-  // Loop over apiCalories dateTimes and split into array of weeks using moment
-  // Populate array with apiCalories data split into weeks
-  // Loop over array and average using functions below
-  // const averageWeeklyCalories = (
-  //   calories.reduce(
-  //     (sum: number, { value }) => sum + parseInt(`${value}`, 10),
-  //     0
-  //     // TODO just want to average over the last week
-  //   ) / arrayItemLength
-  // ).toFixed(0);
-  // const averageWeeklyActivityCalories = (
-  //   ctx.state.activityCalories.reduce(
-  //     (sum: number, { value }: FitbitData) => sum + parseInt(`${value}`, 10),
-  //     0
-  //     // TODO just want to average over the last week
-  //   ) / arrayItemLength
-  // ).toFixed(0);
-  // Sort
-  // .sort((a, b) => {
-  //   if (a.weekEnd === b.weekEnd) {
-  //     return 0;
-  //   }
-  //   return a.weekEnd > b.weekEnd ? 1 : -1;
-  // });
-  // return [{ weekEnd, calories, activityCalories }];
-  return [{ weekEnd: "", calories: "", activityCalories: "" }];
+  const weeklyCalories = apiCalories
+    // Get unique weeks
+    .map((entry) => {
+      return moment(entry.dateTime).locale("en-gb").week();
+    })
+    .filter((value, index, self) => self.indexOf(value) === index)
+    // Nested array of entries for each week
+    .map((week) =>
+      apiCalories.filter(
+        (entry) => moment(entry.dateTime).locale("en-gb").week() === week
+      )
+    )
+    .map((weeklyCalories) => {
+      return {
+        // Reduce each week to a single value
+        calories: (
+          weeklyCalories.reduce(
+            (sum: number, { calories }) => sum + parseInt(`${calories}`, 10),
+            0
+          ) / weeklyCalories.length
+        ).toFixed(0),
+        // Reduce each week to a single value
+        activityCalories: (
+          weeklyCalories.reduce(
+            (sum: number, { activityCalories }) =>
+              sum + parseInt(`${activityCalories}`, 10),
+            0
+          ) / weeklyCalories.length
+        ).toFixed(0),
+        // Find the week end date from the first value
+        weekEnd: (() => {
+          return moment(Object.values(weeklyCalories)[0].dateTime)
+            .endOf("isoWeek")
+            .format("YYYY-MM-DD");
+        })(),
+      };
+    })
+    .filter(
+      (week) =>
+        week.weekEnd !==
+        moment().locale("en-gb").endOf("isoWeek").format("YYYY-MM-DD")
+    );
+
+  return weeklyCalories;
 };
 
-caloriesRouter.get("/calories", async (ctx: Context) => {
-  let calories: APIFitbitCaloriesData;
-  const cachedCalories: APIFitbitCaloriesData = cache.get("calories");
+caloriesRouter.get("/calories/:resolution", async (ctx: Context) => {
+  let calories: Array<APIFitbitCaloriesData>;
+  const cachedCalories: Array<APIFitbitCaloriesData> = cache.get("calories");
   if (cachedCalories) {
     /* eslint-disable-next-line no-console */
     console.log("Retrieving calories from cache");
@@ -86,19 +118,23 @@ caloriesRouter.get("/calories", async (ctx: Context) => {
     cache.set("calories", calories);
   }
 
-  // Old weekly logic
-  const weeklyCalories = await Promise.all(
-    Array(6)
-      .fill(undefined)
-      .map(async (_, index) => {
-        const weeksAgo = index + 1;
-        return getWeeklyCalories(ctx, calories);
-      })
+  const resolution: string = ctx.params.resolution || "weekly";
+
+  const resolutionsMap = {
+    weekly: async (calories: Array<APIFitbitCaloriesData>) =>
+      await getWeeklyCalories(calories),
+    daily: async (calories: Array<APIFitbitCaloriesData>) => calories,
+  };
+
+  const [, getCaloriesMethod] = Object.entries(resolutionsMap).find(
+    ([key]) => key === resolution
   );
 
-  const csv = new ObjectsToCsv(weeklyCalories);
+  const caloriesData = await getCaloriesMethod(calories);
+
+  const csv = new ObjectsToCsv(caloriesData);
   await csv.toDisk(`./results/calories/${moment().format("YYYY-MM-DD")}.csv`);
-  ctx.body = weeklyCalories;
+  ctx.body = caloriesData;
 });
 
 export { caloriesRouter };

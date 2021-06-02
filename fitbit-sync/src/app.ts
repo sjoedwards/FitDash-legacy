@@ -10,6 +10,7 @@ import { weightRouter } from "./routes/weight";
 import { runRouter } from "./routes/runs";
 import { macrosRouter } from "./routes/macros";
 import { caloriesRouter } from "./routes/calories";
+import { deficitRouter } from "./routes/deficit";
 config({ path: ".env" });
 
 app
@@ -28,6 +29,8 @@ app
   .use(macrosRouter.routes())
   .use(macrosRouter.allowedMethods())
   .use(caloriesRouter.routes())
-  .use(caloriesRouter.allowedMethods());
+  .use(caloriesRouter.allowedMethods())
+  .use(deficitRouter.routes())
+  .use(deficitRouter.allowedMethods());
 
 export { app };

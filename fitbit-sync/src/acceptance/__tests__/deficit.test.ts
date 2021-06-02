@@ -46,19 +46,10 @@ beforeEach(() => {
 describe("Calories Route", () => {
   it("should return the correct calorie information for a weekly resolution", async () => {
     const weeklyResponse = await request(app.callback())
-      .get("/calories/weekly")
+      .get("/deficit")
       .set("Cookie", "accessToken=123")
       .send()
       .expect(200);
     expect(weeklyResponse.body).toEqual(weeklyCaloriesExpectedResponse);
-  });
-
-  it("should return the correct calorie information for a daily resolution", async () => {
-    const dailyResponse = await request(app.callback())
-      .get("/calories/daily")
-      .set("Cookie", "accessToken=123")
-      .send()
-      .expect(200);
-    expect(dailyResponse.body).toEqual(dailyCaloriesExpectedResponse);
   });
 });
