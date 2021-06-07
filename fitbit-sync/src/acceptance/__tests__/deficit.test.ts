@@ -49,7 +49,6 @@ describe("Deficit Route", () => {
       .set("Cookie", "accessToken=123")
       .send()
       .expect(200);
-    console.log(JSON.stringify(response.body));
     expect(response.body).toEqual(deficitExpectedResponse);
   });
 });
