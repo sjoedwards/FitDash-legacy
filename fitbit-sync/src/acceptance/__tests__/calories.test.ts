@@ -3,6 +3,7 @@ import { app } from "../../app";
 import { calorieMock } from "../api-data/calories/mock-default-calorie-data";
 import { dailyCaloriesExpectedResponse } from "../expected-responses/calories/daily";
 import { weeklyCaloriesExpectedResponse } from "../expected-responses/calories/weekly";
+import { createMockJWT } from "../tools/create-mock-jwt";
 
 let realDateNow: () => number;
 beforeEach(() => {
@@ -24,7 +25,7 @@ describe("Calories Route", () => {
   it("should return the correct calorie information for a weekly resolution", async () => {
     const weeklyResponse = await request(app.callback())
       .get("/calories/weekly")
-      .set("Cookie", "accessToken=123")
+      .set("Cookie", `accessToken=${createMockJWT()}`)
       .send()
       .expect(200);
     expect(weeklyResponse.body).toEqual(weeklyCaloriesExpectedResponse);
@@ -33,7 +34,7 @@ describe("Calories Route", () => {
   it("should return the correct calorie information for a daily resolution", async () => {
     const dailyResponse = await request(app.callback())
       .get("/calories/daily")
-      .set("Cookie", "accessToken=123")
+      .set("Cookie", `accessToken=${createMockJWT()}`)
       .send()
       .expect(200);
     expect(dailyResponse.body).toEqual(dailyCaloriesExpectedResponse);

@@ -9,6 +9,7 @@ const getTokens = async (ctx: Context, accessCode: string) => {
   if (!accessCode) {
     /* eslint-disable-next-line no-console */
     console.log("No access code, redirecting to FitBit authZ");
+    ctx.cookies.set("path", ctx.path);
     return ctx.redirect(
       `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=${process.env.FITBIT_CLIENT_ID}&scope=activity%20nutrition%20weight&redirect_uri=${redirectUri}`
     );

@@ -4,6 +4,7 @@ import request from "supertest";
 import { app } from "../../app";
 import { caloriesApiData } from "../api-data/calories";
 import { deficitExpectedResponse } from "../expected-responses/deficit";
+import { createMockJWT } from "../tools/create-mock-jwt";
 
 let realDateNow: () => number;
 beforeEach(() => {
@@ -43,10 +44,10 @@ beforeEach(() => {
 });
 
 describe("Deficit Route", () => {
-  it("should return the correct calorie information for a weekly resolution", async () => {
+  it("should return the correct deficit information for a weekly resolution", async () => {
     const response = await request(app.callback())
       .get("/deficit")
-      .set("Cookie", "accessToken=123")
+      .set("Cookie", `accessToken=${createMockJWT()}`)
       .send()
       .expect(200);
     expect(response.body).toEqual(deficitExpectedResponse);
