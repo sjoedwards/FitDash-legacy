@@ -106,7 +106,10 @@ const getWeeklyCalories = async (
 
 caloriesRouter.get("/calories/:resolution", async (ctx: Context) => {
   let calories: Array<APIFitbitCaloriesData>;
-  const cachedCalories: Array<APIFitbitCaloriesData> = cache.get("calories");
+  const cachedCalories: Array<APIFitbitCaloriesData> = cache.get(
+    "calories",
+    ctx
+  );
   if (cachedCalories) {
     /* eslint-disable-next-line no-console */
     console.log("Retrieving calories from cache");
@@ -115,7 +118,7 @@ caloriesRouter.get("/calories/:resolution", async (ctx: Context) => {
     /* eslint-disable-next-line no-console */
     console.log("Getting calories from fitbit");
     calories = await getCalories(ctx);
-    cache.set("calories", calories);
+    cache.set("calories", calories, ctx);
   }
 
   const resolution: string = ctx.params.resolution || "weekly";
