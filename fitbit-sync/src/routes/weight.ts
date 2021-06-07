@@ -60,7 +60,7 @@ const aggregateWeights = async (ctx: Context) => {
 
 weightRouter.get("/weight", async (ctx: Context) => {
   // TODO Cache should be a key which incorperates UID for each user
-  const cachedWeight: Array<FitbitWeightData> = cache.get("weight");
+  const cachedWeight: Array<FitbitWeightData> = cache.get("weight", ctx);
   let weight;
   if (cachedWeight) {
     /* eslint-disable-next-line no-console */
@@ -71,7 +71,7 @@ weightRouter.get("/weight", async (ctx: Context) => {
     console.log("Getting weight from fitbit");
     weight = await aggregateWeights(ctx);
 
-    cache.set("weight", weight);
+    cache.set("weight", weight, ctx);
   }
   const csv = new ObjectsToCsv(weight);
   await csv.toDisk(`./results/weight/${moment().format("YYYY-MM-DD")}.csv`);

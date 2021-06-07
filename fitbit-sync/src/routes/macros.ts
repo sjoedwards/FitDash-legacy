@@ -66,7 +66,7 @@ const getMacros = async (
 };
 
 macrosRouter.get("/macros", async (ctx: Context) => {
-  const cachedMacros: Array<FitbitMacrosData> = cache.get("macros");
+  const cachedMacros: Array<FitbitMacrosData> = cache.get("macros", ctx);
   let macros;
   if (cachedMacros) {
     /* eslint-disable-next-line no-console */
@@ -90,7 +90,7 @@ macrosRouter.get("/macros", async (ctx: Context) => {
       }
       return a.weekEnd > b.weekEnd ? 1 : -1;
     });
-    cache.set("macros", macros);
+    cache.set("macros", macros, ctx);
   }
   const csv = new ObjectsToCsv(macros);
   await csv.toDisk(`./results/macros/${moment().format("YYYY-MM-DD")}.csv`);
