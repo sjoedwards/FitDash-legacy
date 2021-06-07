@@ -3,11 +3,9 @@ import request from "supertest";
 import { app } from "../../app";
 import jwt from "jsonwebtoken";
 import { cache } from "../../cache";
+import { createMockJWT } from "../tools/create-mock-jwt";
 
-const createMockJWT = (subject: string): string =>
-  jwt.sign({ sub: subject }, "signingKey");
-
-const getWeeklyResponse = async (subject = "subject1") =>
+const getWeeklyResponse = async (subject?: string) =>
   await request(app.callback())
     .get("/calories/weekly")
     .set("Cookie", `accessToken=${createMockJWT(subject)}`)
