@@ -3,7 +3,6 @@ import { Context } from "koa";
 import axios from "axios";
 import moment from "moment";
 import Router from "@koa/router";
-import ObjectsToCsv from "objects-to-csv";
 import { cache } from "../cache";
 
 const macrosRouter = new Router();
@@ -92,9 +91,8 @@ macrosRouter.get("/macros", async (ctx: Context) => {
     });
     cache.set("macros", macros, ctx);
   }
-  const csv = new ObjectsToCsv(macros);
-  await csv.toDisk(`./results/macros/${moment().format("YYYY-MM-DD")}.csv`);
-  ctx.body = await csv.toString();
+
+  ctx.body = macros;
 });
 
 export { macrosRouter };

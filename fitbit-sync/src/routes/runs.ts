@@ -4,7 +4,6 @@ import { Context } from "koa";
 import axios from "axios";
 import moment from "moment";
 import Router from "@koa/router";
-import ObjectsToCsv from "objects-to-csv";
 
 const runRouter = new Router();
 
@@ -49,9 +48,8 @@ runRouter.get("/runs", async (ctx: Context) => {
       }
       return a.date > b.date ? 1 : -1;
     });
-  const csv = new ObjectsToCsv(formattedActivities);
-  await csv.toDisk(`./results/runs/${moment().format("YYYY-MM-DD")}.csv`);
-  ctx.body = await csv.toString();
+
+  ctx.body = formattedActivities;
 });
 
 export { runRouter };
