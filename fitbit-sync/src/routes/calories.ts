@@ -8,7 +8,6 @@ import { Context } from "koa";
 import axios from "axios";
 import moment from "moment";
 import Router from "@koa/router";
-import ObjectsToCsv from "objects-to-csv";
 import { cache } from "../cache";
 
 const caloriesRouter = new Router();
@@ -135,8 +134,6 @@ caloriesRouter.get("/calories/:resolution", async (ctx: Context) => {
 
   const caloriesData = await getCaloriesMethod(calories);
 
-  const csv = new ObjectsToCsv(caloriesData);
-  await csv.toDisk(`./results/calories/${moment().format("YYYY-MM-DD")}.csv`);
   ctx.body = caloriesData;
 });
 

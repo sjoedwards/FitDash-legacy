@@ -3,7 +3,6 @@ import { Context } from "koa";
 import axios from "axios";
 import moment from "moment";
 import Router from "@koa/router";
-import ObjectsToCsv from "objects-to-csv";
 import { cache } from "../cache";
 
 const weightRouter = new Router();
@@ -73,9 +72,7 @@ weightRouter.get("/weight", async (ctx: Context) => {
 
     cache.set("weight", weight, ctx);
   }
-  const csv = new ObjectsToCsv(weight);
-  await csv.toDisk(`./results/weight/${moment().format("YYYY-MM-DD")}.csv`);
-  ctx.body = await csv.toString();
+  ctx.body = weight;
 });
 
 export { weightRouter };
